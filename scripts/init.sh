@@ -158,6 +158,12 @@ function install_task(){
   brew install go-task/tap/go-task 
 }
 
+function end_script(){
+  print_text "dotfiles init complete"
+  echo "- Source the profile file to gain access to brew commands:"
+  echo "    source ~/.profile"
+}
+
 function main(){
   prevent_subshell
   make_git_dir
@@ -167,6 +173,7 @@ function main(){
   setup_ssh
   setup_gpg
   install_task
+  end_script
 }
 
 main "$@"

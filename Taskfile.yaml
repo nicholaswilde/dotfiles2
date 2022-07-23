@@ -1,0 +1,21 @@
+---
+version: '3'
+
+tasks:
+  venv:
+    desc: Run virtual environment
+    cmds:
+      - echo "/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles2/main/scripts/init.sh)\"" | copy
+      - docker run -it --rm --entrypoint /bin/bash -u ubuntu -w /home/ubuntu nicholaswilde/ubuntu-server:22.10
+  init:
+    desc: Initialize remote dotfiles
+    cmds:
+      - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles2/main/scripts/init.sh)"
+  init-local:
+    desc: Initialize local dotfiles
+    cmds:
+      - ./scripts/init.sh
+  default:
+    cmds:
+      - task -l
+    silent: true

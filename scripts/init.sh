@@ -17,11 +17,20 @@ set -o pipefail
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 SCRIPT_NAME="$(basename "${0}")"
 SCRIPT_DESC="Initialize the dotfiles on a Ubuntu system"
-GIT_DIR="${HOME}/git/nicholaswilde"
+ORG_NAME="nicholaswilde"
+REPO_NAME="dotfiles2"
+REPO_URL="https://github.com/${ORG_NAME}/${REPO_NAME}"
+GIT_DIR="${HOME}/git/${ORG_NAME}"
+REPO_DIR="${GIT_DIR}/${REPO_NAME}"
+
 readonly GIT_DIR
 readonly SCRIPT_PATH
 readonly SCRIPT_NAME
 readonly SCRIPT_DESC
+readonly REPO_NAME
+readonly ORG_NAME
+readonly REPO_URL
+readonly REPO_DIR
 
 # Check if variable is null
 # Returns true if empty
@@ -61,7 +70,7 @@ function make_git_dir(){
 
 function clone_repo(){
   if ! dir_exists "${GIT_DIR}/dotfiles2"; then
-    git clone https://github.com/nicholaswilde/dotfiles2.git "${GIT_DIR}/dotfiles2"
+    git clone "${REPO_URL}.git" "${GIT_DIR}/dotfiles2"
   fi
   cd "${GIT_DIR}/dotfiles2" || exit 1
 }
@@ -72,11 +81,13 @@ function install_brew(){
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   sudo apt-get update
   sudo apt-get install -y build-essential
-  source "${HOME}/.profile"
+  source ~/.profile
 }
 
 function install_lastpass(){
   brew install lastpass-cli
+  source ~/.profile
+  lpass --trust login ncwilde43@gmail.com
 }
 
 function setup_ssh(){
@@ -84,13 +95,13 @@ function setup_ssh(){
   if ! dir_exists ~/.ssh; then
     mkdir ~/.ssh
   fi
-  curl https://github.com/nicholaswilde.keys -o ~/.ssh/id_rsa.pub
+  curl "https://github.com/${ORG_NAME}.keys" -o ~/.ssh/id_rsa.pub
   chmod 644 ~/.ssh/id_rsa.pub
   lpass show ssh --attach=att-4322045537695550419-20689 -q > ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
   cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
   chmod 0700 ~/.ssh
-  ssh-import-id-gh nicholaswilde
+  ssh-import-id-gh "${ORG_NAME}"
 }
 
 function main(){

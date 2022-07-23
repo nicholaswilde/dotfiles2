@@ -31,6 +31,11 @@ EMAIL_ADDRESS="ncwilde43@gmail.com"
 REPO_NAME="dotfiles2"
 REPO_URL="https://github.com/${ORG_NAME}/${REPO_NAME}"
 REPO_DIR="${GIT_DIR}/${REPO_NAME}"
+GPG_LPASS_ID="gpg"
+GPG_LPASS_ATTACH_ID="att-8017296795546256342-55097"
+SSH_LPASS_ID="ssh"
+SSH_LPASS_ATTACH_ID="att-4322045537695550419-20689"
+
 
 readonly EMAIL_ADDRESS
 readonly GIT_DIR
@@ -41,6 +46,10 @@ readonly REPO_NAME
 readonly ORG_NAME
 readonly REPO_URL
 readonly REPO_DIR
+readonly GPG_LPASS_ATTACH_ID
+readonly GPG_LPASS_ID
+readonly SSH_LPASS_ATTACH_ID
+readonly SSH_LPASS_ID
 
 readonly bold
 readonly normal
@@ -127,7 +136,7 @@ function setup_ssh(){
   fi
   curl "https://github.com/${ORG_NAME}.keys" -o ~/.ssh/id_rsa.pub
   chmod 644 ~/.ssh/id_rsa.pub
-  lpass show ssh --attach=att-4322045537695550419-20689 -q > ~/.ssh/id_rsa
+  lpass show "${SSH_LPASS_ID}" --attach="${SSH_LPASS_ATTACH_ID}" -q > ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
   cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
   chmod 0700 ~/.ssh
@@ -136,12 +145,16 @@ function setup_ssh(){
 
 function setup_gpg(){
   print_text "Setup GPG"
-  lpass show gpg --attach=8017296795546256342-55097 -q | gpg --import
+  lpass show "${GPG_LPASS_ID}" --attach="${GPG_LPASS_ATTACH_ID}" -q | gpg --import
   gpg --refresh-keys --keyserver keyserver.ubuntu.com
 }
 
 function install_task(){
   print_text "Install task"
+  if command_exists task; then
+    echo "task is already installed"
+    return 0
+  fi
   brew install go-task/tap/go-task 
 }
 

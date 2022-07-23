@@ -45,13 +45,12 @@ function is_set(){
   [ -n "${1}" ]
 }
 
-function preventSubshell(){
-  if [[ $_ != $0 ]]
-  then
+function prevent_subshell(){
+  if [[ $_ != $0 ]]; then
     echo "Script is being sourced"
   else
-    echo "Script is a subshell - please run the script by invoking . script.sh command";
-    exit 1;
+    echo "Script is a subshell - please run the script by invoking . script.sh command"
+    exit 1
   fi
 }
 
@@ -80,12 +79,27 @@ function install_lastpass(){
   brew install lastpass-cli
 }
 
+function setup_ssh(){
+  sudo apt-get install -y ssh-import-id
+  if ! dir_exists ~/.ssh; then
+    mkdir ~/.ssh
+  fi
+  curl https://github.com/nicholaswilde.keys -o ~/.ssh/id_rsa.pub
+  chmod 644 ~/.ssh/id_rsa.pub
+  lpass show ssh --attach=att-4322045537695550419-20689 -q > ~/.ssh/id_rsa
+  chmod 600 ~/.ssh/id_rsa
+  cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+  chmod 0700 ~/.ssh
+  ssh-import-id-gh nicholaswilde
+}
+
 function main(){
-  preventSubshell
+  prevent_subshell
   make_git_dir
   clone_repo
   install_brew
   install_lastpass
+  setup_ssh
 }
 
 main "$@"

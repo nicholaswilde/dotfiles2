@@ -29,7 +29,7 @@ ORG_NAME="nicholaswilde"
 GIT_DIR="${HOME}/git/${ORG_NAME}"
 EMAIL_ADDRESS="ncwilde43@gmail.com"
 REPO_NAME="dotfiles2"
-REPO_URL="https://github.com/${ORG_NAME}/${REPO_NAME}"
+REPO_URL="git@github.com:${ORG_NAME}/${REPO_NAME}.git"
 REPO_DIR="${GIT_DIR}/${REPO_NAME}"
 GPG_LPASS_ID="gpg"
 GPG_LPASS_ATTACH_ID="att-8017296795546256342-55097"
@@ -102,7 +102,7 @@ function make_git_dir(){
 function clone_repo(){
   print_text "Clone repo"
   if ! dir_exists "${REPO_DIR}"; then
-    git clone "${REPO_URL}.git" "${REPO_DIR}"
+    git clone "${REPO_URL}" "${REPO_DIR}"
   fi
   cd "${REPO_DIR}" || exit 1
 }
@@ -162,17 +162,20 @@ function end_script(){
   print_text "dotfiles init complete"
   echo "- Source the profile file to gain access to brew commands:"
   echo "    source ~/.profile"
+  echo "- Change to dotfiles repo directory and install dotfiles"
+  echo "    cd ${REPO_DIR}"
+  echo "    task dotfiles"
 }
 
 function main(){
   prevent_subshell
   make_git_dir
-  clone_repo
   install_brew
   install_lastpass
   setup_ssh
   setup_gpg
   install_task
+  clone_repo
   end_script
 }
 

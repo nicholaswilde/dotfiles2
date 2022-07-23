@@ -110,7 +110,7 @@ function setup_ssh(){
   ssh-import-id-gh "${ORG_NAME}"
 }
 
-function setup_gpg(){}
+# function setup_gpg(){}
 
 function main(){
   prevent_subshell
@@ -119,7 +119,7 @@ function main(){
   install_brew
   install_lastpass
   setup_ssh
-  setup_gpg
+  # setup_gpg
 }
 
 main "$@"

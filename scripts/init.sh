@@ -140,6 +140,11 @@ function setup_gpg(){
   gpg --refresh-keys --keyserver keyserver.ubuntu.com
 }
 
+function install_task(){
+  print_text "Install task"
+  brew install go-task/tap/go-task 
+}
+
 function main(){
   prevent_subshell
   make_git_dir
@@ -148,6 +153,7 @@ function main(){
   install_lastpass
   setup_ssh
   setup_gpg
+  install_task
 }
 
 main "$@"

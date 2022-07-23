@@ -18,6 +18,11 @@ SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 SCRIPT_NAME="$(basename "${0}")"
 SCRIPT_DESC="Initialize the dotfiles on a Ubuntu system"
 
+bold=$(tput bold)
+normal=$(tput sgr0)
+blue=$(tput setaf 4)
+black=$(tput setaf 0)
+
 ORG_NAME="nicholaswilde"
 GIT_DIR="${HOME}/git/${ORG_NAME}"
 EMAIL_ADDRESS="ncwilde43@gmail.com"
@@ -35,6 +40,15 @@ readonly ORG_NAME
 readonly REPO_URL
 readonly REPO_DIR
 
+readonly bold
+readonly normal
+readonly blue
+readonly black
+
+
+function print_text(){
+  echo "${blue}==> ${black}${bold}${1}${normal}"
+}
 
 # Check if variable is null
 # Returns true if empty
@@ -59,7 +73,7 @@ function is_set(){
 }
 
 function prevent_subshell(){
-  if [[ $_ != $0 ]]; then
+  if [[ $_ != "$0" ]]; then
     echo "Script is being sourced"
   else
     echo "Script is a subshell - please run the script by invoking . script.sh command"
@@ -68,11 +82,13 @@ function prevent_subshell(){
 }
 
 function make_git_dir(){
+  print_text "Make git directory"
   ! dir_exists "${GIT_DIR}" && mkdir -p "${GIT_DIR}"
   cd "${GIT_DIR}" || exit 1
 }
 
 function clone_repo(){
+  print_text "Clone repo"
   if ! dir_exists "${REPO_DIR}"; then
     git clone "${REPO_URL}.git" "${REPO_DIR}"
   fi
@@ -80,21 +96,26 @@ function clone_repo(){
 }
 
 function install_brew(){
+  print_text "Install brew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.profile"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   sudo apt-get update
   sudo apt-get install -y build-essential
-  source ~/.profile
+  # shellcheck source=${HOME}/.profile
+  source "${HOME}/.profile"
 }
 
 function install_lastpass(){
+  print_text "Install Lastpass"
   brew install lastpass-cli
-  source ~/.profile
+  # shellcheck source=${HOME}/.profile
+  source "${HOME}/.profile"
   lpass --trust login "${EMAIL_ADDRESS}"
 }
 
 function setup_ssh(){
+  print_text "Setup SSH"
   if ! command_exists ssh-import-id-gh; then
     sudo apt-get install -y ssh-import-id
   fi

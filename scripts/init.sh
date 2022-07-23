@@ -45,6 +45,16 @@ function is_set(){
   [ -n "${1}" ]
 }
 
+function preventSubshell(){
+  if [[ $_ != $0 ]]
+  then
+    echo "Script is being sourced"
+  else
+    echo "Script is a subshell - please run the script by invoking . script.sh command";
+    exit 1;
+  fi
+}
+
 function make_git_dir(){
   ! dir_exists "${GIT_DIR}" && mkdir -p "${GIT_DIR}"
   cd "${GIT_DIR}" || exit 1
@@ -71,6 +81,7 @@ function install_lastpass(){
 }
 
 function main(){
+  preventSubshell
   make_git_dir
   clone_repo
   install_brew

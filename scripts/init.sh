@@ -51,7 +51,7 @@ function make_git_dir(){
 }
 
 function clone_repo(){
-  ! "${GIT_DIR}/dotfiles2" && dir_exists git clone https://github.com/nicholaswilde/dotfiles2.git "${GIT_DIR}/dotfiles2"
+  ! dir_exists "${GIT_DIR}/dotfiles2" && dir_exists git clone https://github.com/nicholaswilde/dotfiles2.git "${GIT_DIR}/dotfiles2"
   cd "${GIT_DIR}/dotfiles2" || exit 1
 }
 

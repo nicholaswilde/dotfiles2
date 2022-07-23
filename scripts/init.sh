@@ -1,4 +1,18 @@
 #!/bin/bash
+################################################################################
+#
+# init
+# ----------------
+# Initialize the dotfiles on a Ubuntu system
+#
+# @author Nicholas Wilde, 0x08b7d7a3
+# @date 23 Jul 2022
+# @version 0.1.0
+#
+################################################################################
+
+set -e
+set -o pipefail
 
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 SCRIPT_NAME="$(basename "${0}")"

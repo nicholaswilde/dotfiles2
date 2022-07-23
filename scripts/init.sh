@@ -22,6 +22,8 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 blue=$(tput setaf 4)
 black=$(tput setaf 0)
+default=$(tput setaf 9)
+white=$(tput setaf 7)
 
 ORG_NAME="nicholaswilde"
 GIT_DIR="${HOME}/git/${ORG_NAME}"
@@ -44,10 +46,11 @@ readonly bold
 readonly normal
 readonly blue
 readonly black
-
+readonly default
+readonly white
 
 function print_text(){
-  echo "${blue}==> ${black}${bold}${1}${normal}"
+  echo "${blue}==> ${white}${bold}${1}${normal}${default}"
 }
 
 # Check if variable is null
@@ -111,7 +114,7 @@ function install_lastpass(){
   brew install lastpass-cli
   # shellcheck source=${HOME}/.profile
   source "${HOME}/.profile"
-  lpass --trust login "${EMAIL_ADDRESS}"
+  lpass login --trust "${EMAIL_ADDRESS}"
 }
 
 function setup_ssh(){

@@ -110,9 +110,7 @@ function setup_ssh(){
   ssh-import-id-gh "${ORG_NAME}"
 }
 
-function setup_gpg(){
-  
-}
+function setup_gpg(){}
 
 function main(){
   prevent_subshell

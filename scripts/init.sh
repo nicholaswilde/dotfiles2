@@ -51,7 +51,7 @@ function make_git_dir(){
 }
 
 function clone_repo(){
-  git clone https://github.com/nicholaswilde/dotfiles2.git "${GIT_DIR}/dotfiles2"
+  ! "${GIT_DIR}/dotfiles2" && dir_exists git clone https://github.com/nicholaswilde/dotfiles2.git "${GIT_DIR}/dotfiles2"
   cd "${GIT_DIR}/dotfiles2" || exit 1
 }
 
@@ -59,6 +59,7 @@ function install_brew(){
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.profile"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  sudo apt-get update
   sudo apt-get install build-essential
   source "${HOME}/.profile"
 }

@@ -41,9 +41,19 @@ function clone_repo(){
   cd "${GIT_DIR}/dotfiles2" || exit 1
 }
 
+function install_brew(){
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+function install_lastpass(){
+  brew install lastpass-cli
+}
+
 function main(){
   make_git_dir
   clone_repo
+  install_brew
+  install_lastpass
 }
 
 main "$@"

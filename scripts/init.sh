@@ -123,7 +123,7 @@ function install_lastpass(){
   brew install lastpass-cli
   # shellcheck source=${HOME}/.profile
   source "${HOME}/.profile"
-  lpass login --trust "${EMAIL_ADDRESS}"
+  LPASS_DISABLE_PINENTRY=1 lpass login --trust "${EMAIL_ADDRESS}"
 }
 
 function setup_ssh(){

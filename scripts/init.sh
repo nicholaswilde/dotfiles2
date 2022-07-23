@@ -134,7 +134,11 @@ function setup_ssh(){
   ssh-import-id-gh "${ORG_NAME}"
 }
 
-# function setup_gpg(){}
+function setup_gpg(){
+  print_text "Setup GPG"
+  lpass show gpg --attach=8017296795546256342-55097 -q | gpg --import
+  gpg --refresh-keys --keyserver keyserver.ubuntu.com
+}
 
 function main(){
   prevent_subshell
@@ -143,7 +147,7 @@ function main(){
   install_brew
   install_lastpass
   setup_ssh
-  # setup_gpg
+  setup_gpg
 }
 
 main "$@"

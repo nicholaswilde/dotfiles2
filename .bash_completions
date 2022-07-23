@@ -1,0 +1,58 @@
+# Check if command exists
+function command_exists(){
+  command -v "${1}" &> /dev/null
+}
+
+# Check if directory exists
+function dir_exists(){
+  [ -d "${1}" ]
+}
+
+# kubectl
+if command_exists kubectl; then
+  source <(kubectl completion bash)
+  complete -F __start_kubectl k
+fi
+
+# gh
+if command_exists gh; then
+  eval "$(gh completion -s bash)"
+fi
+
+if command_exists tk; then
+  complete -C /usr/local/bin/tk tk
+fi
+
+if command_exists kcompose; then
+  # Bash (add to .bashrc for persistence)
+  source <(kompose completion bash)
+fi
+
+if command_exists flux; then
+  . <(flux completion bash)
+fi
+
+if command_exists rbenv; then
+  eval "$(rbenv init -)"
+fi
+
+if [ -f "${HOME}/.cargo/env" ]; then
+  source "${HOME}/.cargo/env"
+fi
+
+if command_exists pip; then
+  . <(pip completion --bash)
+fi
+
+if command_exists direnv; then
+  eval "$(direnv hook bash)"
+fi
+
+if command_exists brew; then
+  if dir_exists /home/linuxbrew/.linuxbrew; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
+  if dir_exists ~/.linuxbrew; then
+    eval "$(~/.linuxbrew/bin/brew shellenv)"
+  fi
+fi

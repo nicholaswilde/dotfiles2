@@ -1,0 +1,19 @@
+[user]
+	email = ncwilde43@gmail.com
+	name = nιcнolaѕ wιlde
+	signingkey = F08AD0AD08B7D7A3
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[credential]
+	useHttpPath = true
+[commit]
+	gpgsign = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[fetch]
+	prune = true

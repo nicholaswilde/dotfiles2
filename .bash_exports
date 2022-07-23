@@ -1,0 +1,66 @@
+# Check if directory exists
+function dir_exists(){
+  [ -d "${1}" ]
+}
+
+export GOPATH="${HOME}/go"
+export GOROOT=/usr/local/go/
+
+# kubectl
+if file_exists ~/.kube/config-turing-pi; then
+  export KUBECONFIG=~/.kube/config-turing-pi
+fi
+
+# Default editor
+export EDITOR='micro'
+export VISUAL=${EDITOR}
+
+export KUBE_EDITOR=${EDITOR}
+
+export GITHUB_USER=nicholaswilde
+
+if [ -f ~/.tokens ]; then
+  source ~/.tokens
+fi
+
+# pass-git-helper
+GPG_TTY=$(tty)
+export GPG_TTY
+
+# IP of ingress host
+export INGRESS_HOST=192.168.1.203
+
+# https://www.commandlinefu.com/commands/view/1560/set-cdpath-to-ease-navigation
+export CDPATH=:..:~:~/git/nicholaswilde:~/git
+
+# For boilerplater
+export AUTHOR_NAME="Nicholas Wilde"
+export AUTHOR_GPG_KEY="0x08b7d7a3"
+
+# SOPS
+export KEY_FP=B52E4BE7765AFEDC5A3A6DDEF640C24F06992490
+
+export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man
+export INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info
+
+# PATH
+
+if dir_exists /home/linuxbrew/.linuxbrew; then
+  export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+fi
+
+if dir_exists ${HOME}/.linuxbrew; then
+  export PATH="${HOME}/.linuxbrew/bin:${PATH}"
+fi
+
+export PATH="${PATH}:${GOPATH}/bin"
+export PATH="${PATH}:${KREW_ROOT:-${HOME}/.krew}/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
+export PATH="${PATH}:/usr/local/go/bin"
+export PATH="${PATH}:${HOME}/bin/"
+
+if dir_exists ${HOME}/.rbenv/bin; then
+  export PATH="${PATH}:${HOME}/.rbenv/bin"
+fi
+
+export PATH="${PATH}:/usr/local/texlive/2020/bin/x86_64-linux"

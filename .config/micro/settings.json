@@ -1,0 +1,15 @@
+{
+    "*.bash*": {
+        "filetype": "sh"
+    },
+    "*.j2": {
+        "filetype": "markdown"
+    },
+    "*lpass.*": {
+        "filetype": "yaml"
+    },
+    "clipboard": "internal",
+    "paste": true,
+    "tabsize": 2,
+    "tabstospaces": true
+}

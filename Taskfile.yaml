@@ -50,6 +50,11 @@ tasks:
     desc: Initialize local dotfiles
     cmds:
       - ./scripts/init.sh
+  serve:
+    desc: Serve an mkdocs server
+    cmds:
+      - mkdocs serve
+    silent: true
   default:
     cmds:
       - task -l

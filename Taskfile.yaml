@@ -1,8 +1,9 @@
 ---
 version: '3'
 
-VARS:
-  UBUNTU_VERSION: 22.10
+env:
+  UBUNTU_VERSION:
+    sh: lsb_release -r | awk '{print $2}'
 
 tasks:
   dotfiles:

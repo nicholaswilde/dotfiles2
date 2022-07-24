@@ -6,6 +6,10 @@ env:
     sh: lsb_release -r | awk '{print $2}'
 
 tasks:
+  apt:
+    desc: Install Apt packages
+    cmds:
+      - sudo apt install $(cat packages)
   dotfiles:
     desc: Install dotfiles
     cmds:

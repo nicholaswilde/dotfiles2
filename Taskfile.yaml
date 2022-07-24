@@ -29,6 +29,14 @@ tasks:
         ln -snf "$(pwd)/.config/micro/bindings.json" "${HOME}/.config/micro/bindings.json";
         source ~/.bashrc
     silent: true
+  import:
+    desc: Import brew formulas
+    cmds:
+      - brew install $(cat formulas)
+  export:
+    desc: Export brew formulas
+    cmds:
+      - brew leaves > ./formulas
   venv:
     desc: Run virtual environment
     cmds:

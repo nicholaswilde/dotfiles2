@@ -1,4 +1,9 @@
 # dotfiles2
+[![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/#/)
+
+My Debian based dot files.
+
+---
 
 ## :rocket: TL;DR
 
@@ -7,3 +12,33 @@
 cd ~/git/nicholaswilde/dotfiles2
 task dotfiles
 ```
+
+---
+
+## :beer: brew Formulas
+
+```bash
+# brew formulas
+brew leaves > formulas
+brew install $(cat formulas)
+```
+---
+
+## :bulb: Inspiration
+
+Inspiration for this repository has been taken from [jessfraz/dotfiles][2].
+
+---
+
+## :balance_scale:​License
+
+​[Apache License 2.0](./LICENSE)
+
+---
+
+## :pencil: Author
+
+​This project was started in 2021 by [Nicholas Wilde][1].
+
+[1]: https://github.com/nicholaswilde/
+[2]: https://github.com/jessfraz/dotfiles

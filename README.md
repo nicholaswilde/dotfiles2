@@ -15,13 +15,10 @@ task dotfiles
 
 ---
 
-## :beer: brew Formulas
+## :book: Documentation
 
-```bash
-# brew formulas
-brew leaves > formulas
-brew install $(cat formulas)
-```
+Documentation can be found [here][3].
+
 ---
 
 ## :bulb: Inspiration
@@ -42,3 +39,4 @@ Inspiration for this repository has been taken from [jessfraz/dotfiles][2].
 
 [1]: https://github.com/nicholaswilde/
 [2]: https://github.com/jessfraz/dotfiles
+[3]: http://nicholaswilde.io/dotfiles2

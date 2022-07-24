@@ -1,6 +1,6 @@
 ---
 site_name: dotfiles2
-site_description: A collection of my recipes.
+site_description: My Debian based dotfiles.
 site_author: Nicholas Wilde
 site_url: https://nicholaswilde.io/dotfiles2
 copyright: Copyright &copy; 2022 Nicholas Wilde
@@ -14,8 +14,6 @@ theme:
   name: material
   icon:
     repo: fontawesome/brands/github
-    logo: fontawesome/solid/bowl-rice
-  favicon: assets/images/favicon.svg
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -34,6 +32,9 @@ theme:
 
 nav:
   - Home: index.md
+  - Usage: usage.md
+  - Configuration: configuration.md
+  - Development: development.md
 
 extra:
   social:
@@ -82,6 +83,8 @@ markdown_extensions:
       repo_url_shorthand: true
       user: nicholaswilde
       repo: dotfiles2
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra_javascript:
   - javascripts/mathjax.js

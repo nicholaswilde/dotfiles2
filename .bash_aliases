@@ -19,7 +19,7 @@ function file_exists(){
 }
 
 # nano
-if file_eixsts ~/.nanorc; then
+if file_exists ~/.nanorc; then
   # don't allow tabs
   alias utab="sed '/^#.*tabstospaces/s/^#//' -i ~/.nanorc"
   # allow tabs

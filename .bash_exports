@@ -19,9 +19,9 @@ export KUBE_EDITOR=${EDITOR}
 
 export GITHUB_USER=nicholaswilde
 
-if [ -f ~/.tokens ]; then
-  source ~/.tokens
-fi
+# Tokens
+# shellcheck source=/dev/null
+test -f "${HOME}/.tokens" && source "${HOME}/.tokens"
 
 # pass-git-helper
 GPG_TTY=$(tty)

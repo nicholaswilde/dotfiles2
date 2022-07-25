@@ -248,7 +248,7 @@ This same concept is used to separate aliases, functions, exports, and completio
 | `.bash_functions`   | A list of bash functions, such as `mkcdir`          |
 | `.bashrc`           | The main bash file that loads all other bash files  |
 
-Common aliases and functions that I like to use are `upgrate`, `reload`, `up`, and `mkcdir`.
+Common aliases and functions that I like to use are `upgrate`, `reload`, `up`, `tmpd`, and `mkcdir`.
 
 !!! note
     The bash dotfiles check that some applications are installed before loading some aliases and functions to ensure

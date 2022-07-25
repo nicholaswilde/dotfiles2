@@ -77,14 +77,13 @@ if command_exists mc; then
   alias pipe='mc pipe'
   alias find='mc find'
   alias sl='mc ls'
-  alias mv='mc mv'
+  alias mv='mc mv -r'
   #alias rm='mc rm'
   alias watch='mc watch'
   alias head='mc head'
   alias tree='mc tree'
   alias diff='mc diff'
   alias du='mc du'
-  
 else
   alias ls='ls --sort=extension --color=auto'
   alias sl='ls --sort=extension --color=auto' # Typo
@@ -97,8 +96,7 @@ else
   alias rm='rm -rf'
   alias cp='cp -r'
   alias mv='mv -i'
-  alias mkdir='mkdir -pv' # Parent directories
-  
+  alias mkdir='mkdir -pv' # Parent directories  
 fi
 
 alias rm='rm -rf'
@@ -156,28 +154,27 @@ fi
 # This one is to take care of make
 # Give me a nice, distinguishable make output
 if command_exists make; then
-	alias make='clear && make'
-	alias m='make'
-	alias smi='sudo make install'
+  alias make='clear && make'
+  alias m='make'
+  alias smi='sudo make install'
 fi
-
 
 # Downloads
 command_exists wget && alias wget='wget -c'
 
 # Git Commands
 if command_exists git; then
-	alias gpo='git push origin main'
+  alias gpo='git push origin main'
   alias gps='git push origin source'
   alias gpma='git push origin master'
-	alias gp='git pull origin $(git branch --show-current)'
-	alias gs='git status'
-	alias gd='git diff'
-	alias gr='git reflog'
-	alias glf='git ls-files'
-	alias ga='git add'
-	alias gl='git log'
-	alias revert='git reset --hard'
+  alias gp='git pull origin $(git branch --show-current)'
+  alias gs='git status'
+  alias gd='git diff'
+  alias gr='git reflog'
+  alias glf='git ls-files'
+  alias ga='git add'
+  alias gl='git log'
+  alias revert='git reset --hard'
   alias gc='git commit -s -m'
   alias gb='git branch'
 fi
@@ -198,27 +195,27 @@ fi
 
 # kubectl
 if command_exists kubectl; then
-    alias k=kubectl
-    alias kge='kubectl get events'
-    alias ke='kubectl edit'
-    alias kg='kubectl get'
-    alias kgp='kubectl get pods -o wide'
-    alias kgn='kubectl get namespaces -o wide'
-    alias kga='kubectl get all -o wide'
-    alias ka='kubectl apply'
-    alias kaf='kubectl apply -f'
-    alias kgi='kubectl get ingress'
-    alias kl='kubectl logs'
-    alias kdesc='kubectl describe'
-    alias kdel='kubectl delete'
-    alias wkp='watch kubectl get pods -o wide'
-    alias wkns='watch kubectl get ns -o wide'
-    alias wka='watch kubectl get all -o wide'
-    alias getkubeconfig='scp pirate@192.168.1.201:~/.kube/config ~/.kube/config-turing-pi'
-    alias restartpod='kubectl rollout restart deployment'
-    alias geting="kubectl get all -n kube-system | grep '^service/traefik ' | awk '{print \$4}'"
-    alias klcm="kubectl logs -n cert-manager $(kubectl get pods -n cert-manager --selector=app.kubernetes.io/name=cert-manager -o jsonpath='{.items[*].metadata.name}')"
-    alias kgef='kubectl get events -n flux-system'
+  alias k=kubectl
+  alias kge='kubectl get events'
+  alias ke='kubectl edit'
+  alias kg='kubectl get'
+  alias kgp='kubectl get pods -o wide'
+  alias kgn='kubectl get namespaces -o wide'
+  alias kga='kubectl get all -o wide'
+  alias ka='kubectl apply'
+  alias kaf='kubectl apply -f'
+  alias kgi='kubectl get ingress'
+  alias kl='kubectl logs'
+  alias kdesc='kubectl describe'
+  alias kdel='kubectl delete'
+  alias wkp='watch kubectl get pods -o wide'
+  alias wkns='watch kubectl get ns -o wide'
+  alias wka='watch kubectl get all -o wide'
+  alias getkubeconfig='scp pirate@192.168.1.201:~/.kube/config ~/.kube/config-turing-pi'
+  alias restartpod='kubectl rollout restart deployment'
+  alias geting="kubectl get all -n kube-system | grep '^service/traefik ' | awk '{print \$4}'"
+  alias klcm="kubectl logs -n cert-manager $(kubectl get pods -n cert-manager --selector=app.kubernetes.io/name=cert-manager -o jsonpath='{.items[*].metadata.name}')"
+  alias kgef='kubectl get events -n flux-system'
 fi
 
 # Edit files
@@ -229,7 +226,7 @@ alias ec='${EDITOR} ~/.bash_completions'
 alias el='${EDITOR} /usr/local/lib/bash/libbash'
 
 # Quickly load bashrc
-alias reload='brew leaves > ~/git/nicholaswilde/dotfiles2/formulas  && source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles2 add ~/git/nicholaswilde/dotfiles2/* &&  git -C ~/git/nicholaswilde/dotfiles2 commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles2 push origin main'
+alias reload='brew leaves > ~/git/nicholaswilde/dotfiles2/formulas  && source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles2 add ~/git/nicholaswilde/dotfiles2/* --all -- ":!~/git/nicholaswilde/dotfiles2/site/" &&  git -C ~/git/nicholaswilde/dotfiles2 commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles2 push origin main'
 alias gcn='git -C ~/git/nicholaswilde/notes add ~/git/nicholaswilde/notes/* &&  git -C ~/git/nicholaswilde/notes commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/notes push origin main'
 
 # Stopwatch

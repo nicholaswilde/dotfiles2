@@ -226,7 +226,7 @@ alias ec='${EDITOR} ~/.bash_completions'
 alias el='${EDITOR} /usr/local/lib/bash/libbash'
 
 # Quickly load bashrc
-alias reload='brew leaves > ~/git/nicholaswilde/dotfiles2/formulas  && source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles2 add ~/git/nicholaswilde/dotfiles2/ --all -- ":!/home/nicholas/git/nicholaswilde/dotfiles2/site/" && git -C ~/git/nicholaswilde/dotfiles2 commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles2 push origin main'
+alias reload='brew leaves > ~/git/nicholaswilde/dotfiles2/formulas  && source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles2 add ~/git/nicholaswilde/dotfiles2/ --all -- \:\!/home/nicholas/git/nicholaswilde/dotfiles2/site/ && git -C ~/git/nicholaswilde/dotfiles2 commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles2 push origin main'
 alias gcn='git -C ~/git/nicholaswilde/notes add ~/git/nicholaswilde/notes/* &&  git -C ~/git/nicholaswilde/notes commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/notes push origin main'
 
 # Stopwatch

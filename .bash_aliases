@@ -34,7 +34,7 @@ if command_exists pass; then
 fi
 
 # Remove the file by default
-command_exists shred &&  alias shred='shred -u'
+command_exists shred && alias shred='shred -u'
 
 command_exists fping &&	alias pingall='fping -l 192.168.1.202 192.168.1.203 192.168.1.189 192.168.1.195 192.168.1.199 192.168.1.172 192.168.1.201'
 
@@ -232,37 +232,54 @@ alias gcn='git -C ~/git/nicholaswilde/notes add ~/git/nicholaswilde/notes/* &&  
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
-command_exists copy && alias cwd='pwd | tr -d "\r\n"| copy'
+# copy
+if command_exists copy; then
+  alias cwd='pwd | tr -d "\r\n"| copy'
+  alias pubkey="more ~/.ssh/id_rsa.pub | copy && printf '=> Public key copied to clipboard.\n'"
+  alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clipboard.\n'"
+fi
+
+# tar
 command_exists tar && alias untar='tar xvf'
 
-alias pubkey="more ~/.ssh/id_rsa.pub | copy && printf '=> Public key copied to clipboard.\n'"
-alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clipboard.\n'"
+# boilerplater
+if command_exists boilerplater; then
+  alias boilerbash='boilerplater bash'
+  alias boilerpy='boilerplater python'
+  alias boilermd='boilerplater ~/git/nicholaswilde/dotfiles/bin/boilerplate-md README.md'
+fi
 
-command_exists boilerplater && alias boilerbash='boilerplater bash'
-command_exists boilerplater && alias boilerpy='boilerplater python'
-command_exists boilerplater && alias boilermd='boilerplater ~/git/nicholaswilde/dotfiles/bin/boilerplate-md README.md'
+# netstat
 command_exists netstat && alias port='netstat -tulanp'
+
+# lynx
 command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-address/ipv4/$(curl -s http://ipecho.net/plain; echo) | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'"
 
 # 32 or 64 bit
 # https://www.commandlinefu.com/commands/view/2940/32-bits-or-64-bits
 alias bit='getconf LONG_BIT'
 
+# mkdocs
 command_exists mkdocs && alias mk='mkdocs build -f ../mkdocs.yaml && mkdocs serve --dev-addr 0.0.0.0:8000 -f ../mkdocs.yaml'
 
+# hugo
 command_exists hugo && alias hs='hugo server -w --bind 0.0.0.0 --disableFastRender'
 
 # Helm
-command_exists helm && alias hi='helm install'
-command_exists helm && alias hu='helm uninstall'
-command_exists helm && alias hdu='helm dependency update'
+if command_exists helm; then
+  alias hi='helm install'
+  alias hu='helm uninstall'
+  alias hdu='helm dependency update'
+fi
 
 # Flux
-command_exists flux && alias wfk='watch flux get kustomizations'
-command_exists flux && alias wfh='watch flux get helmreleases'
-command_exists flux && alias wfs='watch flux get sources all -A'
-command_exists flux && alias f='flux'
-command_exists flux && alias fs='flux reconcile source git flux-system'
+if command_exists flux; then
+  alias wfk='watch flux get kustomizations'
+  alias wfh='watch flux get helmreleases'
+  alias wfs='watch flux get sources all -A'
+  alias f='flux'
+  alias fs='flux reconcile source git flux-system'
+fi
 
 # SOPS
 command_exists sops && alias se='sops --encrypt --in-place'

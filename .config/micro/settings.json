@@ -1,7 +1,4 @@
 {
-    "*.bash*": {
-        "filetype": "sh"
-    },
     "*.j2": {
         "filetype": "markdown"
     },
@@ -9,6 +6,7 @@
         "filetype": "yaml"
     },
     "clipboard": "internal",
+    "colorscheme": "twilight",
     "paste": true,
     "tabsize": 2,
     "tabstospaces": true

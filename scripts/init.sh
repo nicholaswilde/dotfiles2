@@ -21,40 +21,23 @@ SCRIPT_DESC="Initialize the dotfiles on a Ubuntu system"
 bold=$(tput bold)
 normal=$(tput sgr0)
 blue=$(tput setaf 4)
-black=$(tput setaf 0)
 default=$(tput setaf 9)
 white=$(tput setaf 7)
 
-ORG_NAME="nicholaswilde"
-GIT_DIR="${HOME}/git/${ORG_NAME}"
-EMAIL_ADDRESS="ncwilde43@gmail.com"
-REPO_NAME="dotfiles2"
-REPO_URL="git@github.com:${ORG_NAME}/${REPO_NAME}.git"
-REPO_DIR="${GIT_DIR}/${REPO_NAME}"
-GPG_LPASS_ID="gpg"
-GPG_LPASS_ATTACH_ID="att-8017296795546256342-55097"
-SSH_LPASS_ID="ssh"
-SSH_LPASS_ATTACH_ID="att-4322045537695550419-20689"
-
-
-readonly EMAIL_ADDRESS
-readonly GIT_DIR
-readonly SCRIPT_PATH
-readonly SCRIPT_NAME
-readonly SCRIPT_DESC
-readonly REPO_NAME
-readonly ORG_NAME
-readonly REPO_URL
-readonly REPO_DIR
-readonly GPG_LPASS_ATTACH_ID
-readonly GPG_LPASS_ID
-readonly SSH_LPASS_ATTACH_ID
-readonly SSH_LPASS_ID
+DEFAULT_ORG_NAME="nicholaswilde"
+DEFAULT_GIT_DIR="${HOME}/git/${DEFAULT_ORG_NAME}"
+DEFAULT_EMAIL_ADDRESS="ncwilde43@gmail.com"
+DEFAULT_REPO_NAME="dotfiles2"
+DEFAULT_REPO_URL="git@github.com:${DEFAULT_ORG_NAME}/${DEFAULT_REPO_NAME}.git"
+DEFAULT_REPO_DIR="${DEFAULT_GIT_DIR}/${DEFAULT_REPO_NAME}"
+DEFAULT_GPG_LPASS_ID="gpg"
+DEFAULT_GPG_LPASS_ATTACH_ID="att-8017296795546256342-55097"
+DEFAULT_SSH_LPASS_ID="ssh"
+DEFAULT_SSH_LPASS_ATTACH_ID="att-4322045537695550419-20689"
 
 readonly bold
 readonly normal
 readonly blue
-readonly black
 readonly default
 readonly white
 
@@ -82,6 +65,30 @@ function command_exists(){
 # Returns false if empty
 function is_set(){
   [ -n "${1}" ]
+}
+
+function set_vars(){
+  ! is_set "${ORG_NAME}" && ORG_NAME="$DEFAULT_ORG_NAME"
+  ! is_set "${GIT_DIR}" && GIT_DIR="$DEFAULT_GIT_DIR"
+  ! is_set "${EMAIL_ADDRESS}" && EMAIL_ADDRESS="$DEFAULT_EMAIL_ADDRESS"
+  ! is_set "${REPO_NAME}" && REPO_NAME="$DEFAULT_REPO_NAME"
+  ! is_set "${REPO_URL}" && REPO_URL="$DEFAULT_REPO_URL"
+  ! is_set "${REPO_DIR}" && REPO_DIR="$DEFAULT_REPO_DIR"
+  ! is_set "${GPG_LPASS_ID}" && GPG_LPASS_ID="$DEFAULT_GPG_LPASS_ID"
+  ! is_set "${GPG_LPASS_ATTACH_ID}" && GPG_LPASS_ATTACH_ID="$DEFAULT_GPG_LPASS_ATTACH_ID"
+  ! is_set "${SSH_LPASS_ID}" && SSH_LPASS_ID="$DEFAULT_SSH_LPASS_ID"
+  ! is_set "${SSH_LPASS_ATTACH_ID}" && SSH_LPASS_ATTACH_ID="$DEFAULT_SSH_LPASS_ATTACH_ID"
+  printf "ORG_NAME: %s\n" "${ORG_NAME}"
+  printf "GIT_DIR: %s\n" "${GIT_DIR}"
+  printf "EMAIL_ADDRESS: %s\n" "${EMAIL_ADDRESS}"
+  printf "REPO_NAME: %s\n" "${REPO_NAME}"
+  printf "REPO_URL: %s\n" "${REPO_URL}"
+  printf "REPO_DIR: %s\n" "${REPO_DIR}"
+  printf "GPG_LPASS_ID: %s\n" "${GPG_LPASS_ID}"
+  printf "GPG_LPASS_ATTACH_ID: %s\n" "${GPG_LPASS_ATTACH_ID}"
+  printf "SSH_LPASS_ID: %s\n" "${SSH_LPASS_ID}"
+  printf "SSH_LPASS_ATTACH_ID: %s\n" "${SSH_LPASS_ATTACH_ID}"
+  exit 0
 }
 
 function prevent_subshell(){
@@ -168,6 +175,7 @@ function end_script(){
 }
 
 function main(){
+  set_vars
   prevent_subshell
   make_git_dir
   install_brew

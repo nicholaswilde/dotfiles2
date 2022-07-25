@@ -1,19 +1,44 @@
 # Ensure that the function start with the word 'function' and end with '()" so
 # that the alias list function (lf) parses the function correctly.
 
-function count(){ echo $(ls $1 | wc -l); }
+# Check if command exists
+function command_exists(){
+  command -v "${1}" &> /dev/null
+}
+
+function count(){
+  if [ -z "${1}" ]; then
+    echo "Usage: \`count dir\`"
+    return 1
+  fi  
+  echo $(ls ${1} | wc -l)
+}
 
 # Create a tar ball
-function targz() { tar -zcvf $(echo $1 | cut -f 1 -d '.').tar.gz $1; }
+function targz() {
+  if [ -z "${1}" ]; then
+    echo "Usage: \`targz dir\`"
+    return 1
+  fi
+  tar -zcvf $(echo ${1} | sed 's/^\.//' | cut -f 1 -d '.').tar.gz ${1}
+}
 
-function getloc() { lynx -dump https://www.ip-adress.com/ip-address/ipv4/$1 | grep 'City' | awk '{print $2,$3,$4,$5,$6}'; }
+if command_exists lynx; then
+  function getloc() {
+    if [ -z "${1}" ]; then
+        echo "Usage: \`getloc ip_address\`"
+        return 1
+    fi
+    lynx -dump "https://www.ip-adress.com/ip-address/ipv4/${1}" | grep 'City' | awk '{print $2,$3,$4,$5,$6}';
+  }
+fi
 
 function getcom() {
   if [ -z "${1}" ]; then
     echo "Usage: \`getcom user/repo\`"
     return 1
   fi
-  printf "$(curl -s "https://api.github.com/repos/${1}/commits" | jq -r '.[0].sha' | head -c 7)\n"
+  printf "$(curl -s "https://api.github.com/repos/${1}/commits" | jq -r '.[0].sha' | \head -c 7)\n"
 }
 
 function getver() {

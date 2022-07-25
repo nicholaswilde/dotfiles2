@@ -28,9 +28,10 @@ tasks:
         done;
         mkdir -p "${HOME}/.config/gh";
         ln -snf "$(pwd)/.config/gh/config.yml" "${HOME}/.config/gh/config.yml";
-        mkdir -p "${HOME}/.config/micro";
+        mkdir -p "${HOME}/.config/micro/syntax/";
         ln -snf "$(pwd)/.config/micro/settings.json" "${HOME}/.config/micro/settings.json";
         ln -snf "$(pwd)/.config/micro/bindings.json" "${HOME}/.config/micro/bindings.json";
+        ln -snf "$(pwd)/.config/micro/syntax/sh.yaml" "${HOME}/.config/micro/syntax/sh.yaml";
         source ~/.bashrc
     silent: true
   import:

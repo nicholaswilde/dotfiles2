@@ -1,6 +1,6 @@
 # Ensure that the function start with the word 'function' and end with '()" so
 # that the alias list function (lf) parses the function correctly.
-
+## test
 # Check if command exists
 function command_exists(){
   command -v "${1}" &> /dev/null
@@ -38,7 +38,7 @@ function getcom() {
     echo "Usage: \`getcom user/repo\`"
     return 1
   fi
-  printf "$(curl -s "https://api.github.com/repos/${1}/commits" | jq -r '.[0].sha' | \head -c 7)\n"
+  printf "$(curl -s "https://api.github.com/repos/%s/commits" | jq -r '.[0].sha' | \head -c 7)\n" "${1}"
 }
 
 function getver() {
@@ -128,6 +128,10 @@ function tmpd() {
 
 # Create a data URL from a file
 function dataurl() {
+  if [ -z "${1}" ]; then
+    echo "Usage: \`dataurl <file>\`"
+    return 1
+  fi
   local mimeType
   mimeType=$(file -b --mime-type "$1")
   if [[ $mimeType == text/* ]]; then
@@ -239,7 +243,13 @@ function urldecode() {
 
 # make a backup of a file
 # https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc
-function bk() { cp -a "$1" "${1}_$(date --iso-8601=seconds)"; }
+function bk() {
+  if [ -z "${1}" ]; then
+    echo "Usage: bk <file>"
+    return 1
+  fi
+  cp -a "$1" "${1}_$(date --iso-8601=seconds)"
+}
 
 # https://serverfault.com/a/6833/265446
 function fawk() {

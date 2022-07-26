@@ -135,7 +135,7 @@ if command_exists micro; then
 fi
 
 # List our functions
-alias lf='cat ~/.bash_functions|grep -o -P "(?<=function ).*(?=\(\))"'
+alias lf='cat ~/.bash_functions|grep -o -P "(?<=function ).*(?=\(\))" | sort'
 
 # Cool colors for man pages
 alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"

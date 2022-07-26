@@ -126,6 +126,16 @@ function tmpd() {
   cd "$dir" || exit
 }
 
+function cheat(){
+  if [ -z "${1}" ]; then
+    echo "Usage: \`cheat <url>\`"
+    return 1
+  fi
+  curl "cheat.sh/${1}"
+}
+
+function mwiki() { dig +short txt "$*".wp.dg.cx; }
+
 # Create a data URL from a file
 function dataurl() {
   if [ -z "${1}" ]; then

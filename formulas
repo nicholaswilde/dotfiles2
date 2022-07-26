@@ -2,6 +2,7 @@ asciidoctor
 asciinema
 crf++
 gh
+ghostscript
 glow
 go-task/tap/go-task
 gocloc

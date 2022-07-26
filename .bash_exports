@@ -1,5 +1,8 @@
 # shellcheck shell=bash
 
+# History blue
+export HISTTIMEFORMAT=$(echo -e $(tput setaf 4)[%F %T] $(tput sgr0))
+
 # go
 test -d "${HOME}/go" && export GOPATH="${HOME}/go"
 test -d /usr/local/go/ && export GOROOT=/usr/local/go/

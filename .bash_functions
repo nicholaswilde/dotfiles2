@@ -110,9 +110,20 @@ fi
 # Because I am a lazy bum, and this is
 # surpisingly helpful..
 function up() {
-  for i in `seq 1 $1`; do
+  for i in $(seq 1 "${1}"); do
     cd ../
   done;
+}
+
+function weather() {
+  if [ -z "$1" ]; then
+    curl wttr.in
+  else
+    local s
+    s=$*
+    s="${s// /+}"
+    curl "wttr.in/${s}"
+  fi
 }
 
 # Make a temporary directory and enter it
@@ -123,7 +134,7 @@ function tmpd() {
   else
     dir=$(mktemp -d -t "${1}.XXXXXXXXXX")
   fi
-  cd "$dir" || exit
+  pushd "$dir" || exit
 }
 
 function cheat(){

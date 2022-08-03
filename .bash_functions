@@ -1,63 +1,59 @@
+#!/bin/bash
 # Ensure that the function start with the word 'function' and end with '()" so
 # that the alias list function (lf) parses the function correctly.
-## test
 # Check if command exists
-function command_exists(){
+command_exists(){
   command -v "${1}" &> /dev/null
 }
 
-function count(){
-  if [ -z "${1}" ]; then
-    echo "Usage: \`count dir\`"
+check_args() {
+  if [ -z "${2}" ]; then
+    printf "Usage: \`%s\`\n" "${1}"
     return 1
-  fi  
-  echo $(ls ${1} | wc -l)
+  fi
+}
+
+function count(){
+  check_args "count <dir>" "${1}" || return 1
+  echo $(($(\find "${1}" -maxdepth 1 | wc -l)-1))
 }
 
 # Create a tar ball
 function targz() {
-  if [ -z "${1}" ]; then
-    echo "Usage: \`targz dir\`"
-    return 1
-  fi
-  tar -zcvf $(echo ${1} | sed 's/^\.//' | cut -f 1 -d '.').tar.gz ${1}
+  check_args "targz <dir>" "${1}" || return 1
+  tar -zcvf $(echo "${1}" | sed 's/^\.//' | cut -f 1 -d '.').tar.gz "${1}"
 }
 
 if command_exists lynx; then
-  function getloc() {
-    if [ -z "${1}" ]; then
-        echo "Usage: \`getloc ip_address\`"
-        return 1
-    fi
-    lynx -dump "https://www.ip-adress.com/ip-address/ipv4/${1}" | grep 'City' | awk '{print $2,$3,$4,$5,$6}';
+  function getcity() {
+    check_args "getcity <ip_address>" "${1}" || return 1
+    lynx -dump "https://www.ip-adress.com/ip-address/ipv4/${1}" | grep 'City' | awk '{ s = ""; for (i = 3; i <= NF; i++) s = s $i " "; print s }';
+  }
+
+  function getip() {
+    check_args "getip <website>" "${1}" || return 1    
+    lynx -dump "https://ipaddress.com/website/${1}" | grep -A1 "IPv4 Addresses" | tail -n 1 | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'
   }
 fi
 
-function getcom() {
-  if [ -z "${1}" ]; then
-    echo "Usage: \`getcom user/repo\`"
-    return 1
-  fi
-  printf "$(curl -s "https://api.github.com/repos/%s/commits" | jq -r '.[0].sha' | \head -c 7)\n" "${1}"
-}
+if command_exists jq; then
+  function getcom() {
+    check_args "getcom <user/repo>" "${1}" || return 1  
+    curl -s "https://api.github.com/repos/${1}/commits" | jq -r '.[0].sha' | \head -c 7 && printf "\n"
+  }
+fi
 
 function getver() {
-  if [ -z "${1}" ]; then
-    echo "Usage: \`getver user/repo\`"
-    return 1
-  fi
+  check_args "getver <user/repo>" "${1}" || return 1  
   curl -s "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
   grep '"tag_name":' |                                        # Get tag line
   sed -E 's/.*"([^"]+)".*/\1/'                                # Pluck JSON value
 }
 
 function mkcdir() {
-  if [ -z "${1}" ]; then
-    echo "Usage: \`mkcdir dirname\`"
-    return 1
-  fi
-  mkdir -p -- "${1}" &&
-  cd -P -- "${1}"
+  check_args "mkcdir <dirname>" "${1}" || return 1
+  \mkdir -p -- "${1}" &&
+  \cd -P -- "${1}" || return
 }
 
 if command -v kubectl &> /dev/null; then
@@ -85,6 +81,21 @@ if command -v kubectl &> /dev/null; then
       kubectl -n "${1}" get --ignore-not-found=true "${i}"
     done
   }
+  # Apply SOPS encoded secret and then restore it
+  # Requires private key to be in keyring.
+  if command_exists sops; then
+    function applyenc() {
+      if [ -z "${1}" ]; then
+        # display usage if no parameters given
+        echo "Usage: applyenc <file>.yaml"
+        return 1
+      fi
+      sops --decrypt --in-place "${1}"
+      kubectl apply -f "${1}"
+      git fetch
+      git restore -s origin/$(git branch --show-current) -- "${1}"
+    }
+  fi
 fi
 
 function ssd(){
@@ -94,25 +105,26 @@ function ssd(){
 }
 
 function clone(){
-  cd ~/git
-  git clone git@github.com:$1.git $1
-  cd $1
+  check_args "clone <user/repo>" "${1}"
+  cd ~/git && \
+  git clone "git@github.com:${1}.git" "${1}" && \
+  cd "${1}" || return
 }
 
 function showpkg() {
-  apt-cache $1 | grep -i "$1" | sort;
+  apt-cache "${1}" | grep -i "$1" | sort;
 }
-
-if command -v git &> /dev/null; then
-  function gc(){ git commit -m "$*"; }
-fi
 
 # Because I am a lazy bum, and this is
 # surpisingly helpful..
 function up() {
-  for i in $(seq 1 "${1}"); do
+  if [ "$#" -eq 0 ]; then
     cd ../
-  done;
+  else
+    for i in $(\seq 1 "${1}"); do
+      cd ../
+    done;
+  fi
 }
 
 function weather() {
@@ -129,7 +141,7 @@ function weather() {
 # Make a temporary directory and enter it
 function tmpd() {
   local dir
-  if [ $# -eq 0 ]; then
+  if [ "$#" -eq 0 ]; then
     dir=$(mktemp -d)
   else
     dir=$(mktemp -d -t "${1}.XXXXXXXXXX")
@@ -138,10 +150,7 @@ function tmpd() {
 }
 
 function cheat(){
-  if [ -z "${1}" ]; then
-    echo "Usage: \`cheat <url>\`"
-    return 1
-  fi
+  check_args "cheat <url>" "${1}"
   curl "cheat.sh/${1}"
 }
 
@@ -149,10 +158,7 @@ function mwiki() { dig +short txt "$*".wp.dg.cx; }
 
 # Create a data URL from a file
 function dataurl() {
-  if [ -z "${1}" ]; then
-    echo "Usage: \`dataurl <file>\`"
-    return 1
-  fi
+  check_args "dataurl <file>" "${1}"
   local mimeType
   mimeType=$(file -b --mime-type "$1")
   if [[ $mimeType == text/* ]]; then
@@ -161,21 +167,9 @@ function dataurl() {
   echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
-# Create a git.io short URL
-function gitio() {
-  if [ -z "${1}" ] || [ -z "${2}" ]; then
-    echo "Usage: \`gitio slug url\`"
-    return 1
-  fi
-  curl -i https://git.io/ -F "url=${2}" -F "code=${1}"
-}
-
 # Compare original and gzipped file size
 function gz() {
-  if [ -z "${1}" ]; then
-    echo "Usage: \`gz file\`"
-    return 1
-  fi
+  check_args "gz <file>" "${1}"
   local origsize
   origsize=$(wc -c < "$1")
   local gzipsize
@@ -219,33 +213,33 @@ function extract {
   else
     for n in "$@"; do
       if [ -f "$n" ] ; then
-          case "${n%,}" in
-            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
-                          tar xvf "$n"         ;;
-            *.lzma)       unlzma ./"$n"        ;;
-            *.bz2)        bunzip2 ./"$n"       ;;
-            *.cbr|*.rar)  unrar x -ad ./"$n"   ;;
-            *.gz)         gunzip ./"$n"        ;;
-            *.cbz|*.epub|*.zip) unzip ./"$n"  ;;
-            *.z)          uncompress ./"$n"    ;;
-            *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
-                          7z x ./"$n"          ;;
-            *.xz)         unxz ./"$n"          ;;
-            *.exe)        cabextract ./"$n"    ;;
-            *.cpio)       cpio -id < ./"$n"    ;;
-            *.cba|*.ace)  unace x ./"$n"       ;;
-            *.zpaq)       zpaq x ./"$n"        ;;
-            *.arc)        arc e ./"$n"         ;;
-            *.cso)        ciso 0 ./"$n" ./"$n.iso" && \
-                            extract $n.iso && \rm -f $n ;;
-            *)
-                         echo "extract: '$n' - unknown archive method"
-                         return 1
-                         ;;
-          esac
+        case "${n%,}" in
+          *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                        tar xvf "$n"         ;;
+          *.lzma)       unlzma ./"$n"        ;;
+          *.bz2)        bunzip2 ./"$n"       ;;
+          *.cbr|*.rar)  unrar x -ad ./"$n"   ;;
+          *.gz)         gunzip ./"$n"        ;;
+          *.cbz|*.epub|*.zip) unzip ./"$n"  ;;
+          *.z)          uncompress ./"$n"    ;;
+          *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
+                        7z x ./"$n"          ;;
+          *.xz)         unxz ./"$n"          ;;
+          *.exe)        cabextract ./"$n"    ;;
+          *.cpio)       cpio -id < ./"$n"    ;;
+          *.cba|*.ace)  unace x ./"$n"       ;;
+          *.zpaq)       zpaq x ./"$n"        ;;
+          *.arc)        arc e ./"$n"         ;;
+          *.cso)        ciso 0 ./"$n" ./"$n.iso" && \
+                        extract ./"$n.iso" && \rm -f ./"$n" ;;
+          *)
+                       echo "extract: '$n' - unknown archive method"
+                       return 1
+                       ;;
+        esac
       else
-          echo "'$n' - file does not exist"
-          return 1
+        echo "'$n' - file does not exist"
+        return 1
       fi
     done
   fi
@@ -265,41 +259,22 @@ function urldecode() {
 # make a backup of a file
 # https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc
 function bk() {
-  if [ -z "${1}" ]; then
-    echo "Usage: bk <file>"
-    return 1
-  fi
+  check_args "bk <file>" "${1}" || return 1
   cp -a "$1" "${1}_$(date --iso-8601=seconds)"
 }
 
+# Return a column number. df -h | awk '{print $2}' => df -h | fawk 2
 # https://serverfault.com/a/6833/265446
 function fawk() {
-    first="awk '{print "
-    last="}'"
-    cmd="${first}\$${1}${last}"
-    eval $cmd
+  check_args "cmd | fawk <col_num>" "${1}" || return 1
+  first="awk '{print "
+  last="}'"
+  cmd="${first}\$${1}${last}"
+  eval "${cmd}"
 }
 
 # Add notes
 function an() {
-  if [ -z "${1}" ]; then
-    # display usage if no parameters given
-    echo "Usage: an <file>.md"
-    return 1
-  fi
-  "${EDITOR}" "~/git/nicholaswilde/notes/docs/$1.md"
-}
-
-# Apply SOPS encoded secret and then restore it
-# Requires private key to be in keyring.
-function applyenc() {
-  if [ -z "${1}" ]; then
-    # display usage if no parameters given
-    echo "Usage: applyenc <file>.yaml"
-    return 1
-  fi
-  sops --decrypt --in-place "${1}"
-  kubectl apply -f "${1}"
-  git fetch
-  git restore -s origin/$(git branch --show-current) -- "${1}"
+  check_args "an <file>.md" "${1}" || return 1
+  "${EDITOR}" "${HOME}/git/nicholaswilde/notes/docs/$1.md"
 }

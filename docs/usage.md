@@ -254,6 +254,56 @@ Common aliases and functions that I like to use are `upgrate`, `reload`, `up`, `
     The bash dotfiles check that some applications are installed before loading some aliases and functions to ensure
     that the aliases and functions still work. E.g. `mc` for `alias mv='mc mv'`.
 
+### Functions
+
+A list of functions may shown by running the `lf` function.
+
+```shell
+lf
+```
+
+```shell title="Output"
+an()                           Add notes
+applyenc()                     Apply SOPS encoded secret and restore it
+bk()                           Make a backup of a file
+cheat()                        Lookup a command at cheat.sh
+clone()                        Clone a repo
+count()                        Count the number of things
+dataurl()                      Create a data URL from a file
+dcleanup()                     Cleanup Docker stuff
+extract()                      Extract a compressed file
+fawk()                         Return a column number. df -h | awk '{print $2}' => df -h | fawk 2
+getcity()                      Get the city of an IP address
+getcom()                       Get a short commit from a repo
+getip()                        The the IP address of a domain
+getsecret()                    Get a secret
+getver()                       Get the latest version from a repo
+gz()                           Compare original and gzipped file size
+kubectlgetall()                Get all k8s namespaces
+lf()                           List functions
+mkcdir()                       Make and change to a directory
+mwiki()                        Lookup something on Wikipedia
+setns()                        Set a namespace
+showpkg()                      Show apt package info
+).*" | sort | awk 'BEGIN       "}; {printf "%-30s \033[36m%s\033[0m\n", $1, $2}'
+ssd()                          Get SSD parameters
+targz()                        Create a tarball
+tmpd()                         Make a temporary directory and enter it
+up()                           Go up a number of directories
+upgrate()                      Upgrade everything
+urldecode()                    Decode URLencoded string
+urlencode()                    Encode with URLEncode
+weather()                      Get the local weather
+```
+
+### Aliases
+
+A list of aliases may be shown by running the `alias` command.
+
+```shell
+alias
+```
+
 ## Config Files
 
 Config files are stored in the [`.config` repo directory][17] and linked to the `~/.config/` directory.

@@ -136,7 +136,9 @@ fi
 
 # List our functions
 # alias lf='cat ~/.bash_functions|grep -o -P "(?<=function ).*(?=\(\))" | sort'
-unalias lf
+if alias lf 2>/dev/null; then
+  unalias lf
+fi
 
 # Cool colors for man pages
 alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"

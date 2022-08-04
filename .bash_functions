@@ -1,6 +1,4 @@
 #!/bin/bash
-# Ensure that the function start with the word 'function' and end with '()" so
-# that the alias list function (lf) parses the function correctly.
 # Check if command exists
 command_exists(){
   command -v "${1}" &> /dev/null
@@ -13,69 +11,61 @@ check_args() {
   fi
 }
 
-function count(){
+function count() { ## Count the number of things
   check_args "count <dir>" "${1}" || return 1
   echo $(($(\find "${1}" -maxdepth 1 | wc -l)-1))
 }
 
 # Create a tar ball
-function targz() {
+function targz() { ## Create a tarball
   check_args "targz <dir>" "${1}" || return 1
   tar -zcvf $(echo "${1}" | sed 's/^\.//' | cut -f 1 -d '.').tar.gz "${1}"
 }
 
 if command_exists lynx; then
-  function getcity() {
+  function getcity() { ## Get the city of an IP address
     check_args "getcity <ip_address>" "${1}" || return 1
     lynx -dump "https://www.ip-adress.com/ip-address/ipv4/${1}" | grep 'City' | awk '{ s = ""; for (i = 3; i <= NF; i++) s = s $i " "; print s }';
   }
 
-  function getip() {
+  function getip() { ## The the IP address of a domain
     check_args "getip <website>" "${1}" || return 1    
     lynx -dump "https://ipaddress.com/website/${1}" | grep -A1 "IPv4 Addresses" | tail -n 1 | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'
   }
 fi
 
 if command_exists jq; then
-  function getcom() {
+  function getcom() { ## Get a short commit from a repo
     check_args "getcom <user/repo>" "${1}" || return 1  
     curl -s "https://api.github.com/repos/${1}/commits" | jq -r '.[0].sha' | \head -c 7 && printf "\n"
   }
 fi
 
-function getver() {
+function getver() { ## Get the latest version from a repo
   check_args "getver <user/repo>" "${1}" || return 1  
   curl -s "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
   grep '"tag_name":' |                                        # Get tag line
   sed -E 's/.*"([^"]+)".*/\1/'                                # Pluck JSON value
 }
 
-function mkcdir() {
+function mkcdir() { ## Make and change to a directory
   check_args "mkcdir <dirname>" "${1}" || return 1
   \mkdir -p -- "${1}" &&
   \cd -P -- "${1}" || return
 }
 
-if command -v kubectl &> /dev/null; then
-  function getsecret(){
-    if [ -z "${1}" ]; then
-      echo "Usage: \`getsecret secret-name\`"
-      return 1
-    fi
+if command_exists kubectl; then
+  function getsecret() { ## Get a secret
+    check_args "getsecret <secret-name>" "${1}" || return 1
+    # shellcheck disable=SC2016
     kubectl get secret "${1}" -o go-template='{{range $k,$v := .data}}{{"### "}}{{$k}}{{"\n"}}{{$v|base64decode}}{{"\n\n"}}{{end}}'
   }
-  function setns(){
-    if [ -z "${1}" ]; then
-      echo "Usage: \`setns namespace-name\`"
-      return 1
-    fi
+  function setns() { ## Set a namespace
+    check_args "setns <namespace-name>" "${1}"|| return 1
     kubectl config set-context --current -n "$1"
   }
-  function kubectlgetall() {
-    if [ -z "${1}" ]; then
-      echo "Usage: \`kubectlgetall namespace-name\`"
-      return 1
-    fi
+  function kubectlgetall() { ## Get all k8s namespaces
+    check_args "kubectlgetall <namespace-name>" "${1}" || return 1
     for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
       echo "Resource:" "${i}"
       kubectl -n "${1}" get --ignore-not-found=true "${i}"
@@ -84,40 +74,38 @@ if command -v kubectl &> /dev/null; then
   # Apply SOPS encoded secret and then restore it
   # Requires private key to be in keyring.
   if command_exists sops; then
-    function applyenc() {
-      if [ -z "${1}" ]; then
-        # display usage if no parameters given
-        echo "Usage: applyenc <file>.yaml"
-        return 1
-      fi
+    function applyenc() { ## Apply SOPS encoded secret and restore it
+      check_args "applyenc <file>.yaml" || return 1
       sops --decrypt --in-place "${1}"
       kubectl apply -f "${1}"
       git fetch
-      git restore -s origin/$(git branch --show-current) -- "${1}"
+      branch="$(git branch --show-current)"
+      git restore -s "origin/${branch}" -- "${1}"
+      unset branch
     }
   fi
 fi
 
-function ssd(){
+function ssd() { ## Get SSD parameters
   echo "Device         Total  Used  Free   Pct MntPoint"
   df -h | grep "/dev/sd"
   df -h | grep "/mnt/"
 }
 
-function clone(){
+function clone() { ## Clone a repo
   check_args "clone <user/repo>" "${1}"
   cd ~/git && \
   git clone "git@github.com:${1}.git" "${1}" && \
   cd "${1}" || return
 }
 
-function showpkg() {
+function showpkg() { ## Show apt package info
   apt-cache "${1}" | grep -i "$1" | sort;
 }
 
 # Because I am a lazy bum, and this is
 # surpisingly helpful..
-function up() {
+function up() { ## Go up a number of directories
   if [ "$#" -eq 0 ]; then
     cd ../
   else
@@ -127,7 +115,7 @@ function up() {
   fi
 }
 
-function weather() {
+function weather() { ## Get the local weather
   if [ -z "$1" ]; then
     curl wttr.in
   else
@@ -138,26 +126,26 @@ function weather() {
   fi
 }
 
-# Make a temporary directory and enter it
-function tmpd() {
+function tmpd() { ## Make a temporary directory and enter it
   local dir
   if [ "$#" -eq 0 ]; then
     dir=$(mktemp -d)
   else
     dir=$(mktemp -d -t "${1}.XXXXXXXXXX")
   fi
-  pushd "$dir" || exit
+  pushd "$dir" || return
 }
 
-function cheat(){
+function cheat() { ## Lookup a command at cheat.sh
   check_args "cheat <url>" "${1}"
   curl "cheat.sh/${1}"
 }
 
-function mwiki() { dig +short txt "$*".wp.dg.cx; }
+function mwiki() { ## Lookup something on Wikipedia
+  dig +short txt "$*".wp.dg.cx;
+}
 
-# Create a data URL from a file
-function dataurl() {
+function dataurl() { ## Create a data URL from a file
   check_args "dataurl <file>" "${1}"
   local mimeType
   mimeType=$(file -b --mime-type "$1")
@@ -167,8 +155,7 @@ function dataurl() {
   echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
-# Compare original and gzipped file size
-function gz() {
+function gz() { ## Compare original and gzipped file size
   check_args "gz <file>" "${1}"
   local origsize
   origsize=$(wc -c < "$1")
@@ -195,7 +182,7 @@ function gz() {
   printf "lzma:  %d bytes (%2.1f%%)\\n" "$lzmasize" "$ratio4"
 }
 
-function dcleanup(){
+function dcleanup() { ## Cleanup Docker stuff
   local containers
   mapfile -t containers < <(docker ps --filter status=exited -q 2>/dev/null)
   docker rm "${containers[@]}" 2>/dev/null
@@ -205,11 +192,12 @@ function dcleanup(){
 }
 
 # https://github.com/xvoland/Extract/blob/master/extract.sh
-function extract {
+function extract() { ## Extract a compressed file
   if [ -z "$1" ]; then
     # display usage if no parameters given
     echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
     echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+    return 1
   else
     for n in "$@"; do
       if [ -f "$n" ] ; then
@@ -246,26 +234,22 @@ function extract {
 }
 
 # https://stackoverflow.com/questions/6250698/how-to-decode-url-encoded-string-in-shell
-# Encode with URLEncode
-function urlencode() {
+function urlencode() { ## Encode with URLEncode
 	python -c "import sys; from urllib.parse import quote_plus; print(quote_plus(sys.stdin.read()))"
 }
 
-# Decode URLencoded string
-function urldecode() {
+function urldecode() { ## Decode URLencoded string
 	python -c "import sys; from urllib.parse import unquote; print(unquote(sys.stdin.read()), end='')"
 }
 
-# make a backup of a file
 # https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc
-function bk() {
+function bk() { ## Make a backup of a file
   check_args "bk <file>" "${1}" || return 1
   cp -a "$1" "${1}_$(date --iso-8601=seconds)"
 }
 
-# Return a column number. df -h | awk '{print $2}' => df -h | fawk 2
 # https://serverfault.com/a/6833/265446
-function fawk() {
+function fawk() { ## Return a column number. df -h | awk '{print $2}' => df -h | fawk 2
   check_args "cmd | fawk <col_num>" "${1}" || return 1
   first="awk '{print "
   last="}'"
@@ -273,8 +257,20 @@ function fawk() {
   eval "${cmd}"
 }
 
-# Add notes
-function an() {
+function an() { ## Add notes
   check_args "an <file>.md" "${1}" || return 1
   "${EDITOR}" "${HOME}/git/nicholaswilde/notes/docs/$1.md"
+}
+
+function lf() { ## List functions
+  cat ~/.bash_functions | grep -Po "(?<=function ).*" | sort | awk 'BEGIN {FS = "{.*?## "}; {printf "%-30s \033[36m%s\033[0m\n", $1, $2}'
+}
+
+function upgrate() { ## Upgrade everything
+  sudo apt update
+  sudo apt -y upgrade
+  sudo apt -y autoremove
+  command_exists npm && npm update -g
+  command_exists pip3 && pip3 list --outdated --format=freeze | grep -v ^-e | cut -d = -f 1 | xargs -n1 pip3 install -U
+  command_exists brew && brew upgrade
 }

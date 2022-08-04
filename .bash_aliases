@@ -1,3 +1,4 @@
+#!/bin/bash
 # Check if command exists
 function command_exists(){
   command -v "${1}" &> /dev/null
@@ -17,6 +18,9 @@ function dir_exists(){
 function file_exists(){
   [ -f "{1}" ]
 }
+
+# Pretty print the path
+alias path='echo $PATH | tr -s ":" "\n"'
 
 # nano
 if file_exists ~/.nanorc; then

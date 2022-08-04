@@ -263,7 +263,7 @@ function an() { ## Add notes
 }
 
 function lf() { ## List functions
-  cat ~/.bash_functions | grep -Po "(?<=function ).*" | sort | awk 'BEGIN {FS = "{.*?## "}; {printf "%-30s \033[36m%s\033[0m\n", $1, $2}'
+  grep -Po "(?<=function ).*" ~/.bash_functions | sort | awk 'BEGIN {FS = "{.*?## "}; {printf "%-30s \033[36m%s\033[0m\n", $1, $2}'
 }
 
 function upgrate() { ## Upgrade everything

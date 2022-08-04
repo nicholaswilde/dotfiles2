@@ -4,6 +4,9 @@
 
 Variables inside the script may be changed to customize the repo.
 
+!!! note
+    The variable names inside of the script are prefixed with `DEFAULT_`.
+
 | Variable name         | Description                                             | Default value                                 |
 |-----------------------|---------------------------------------------------------|-----------------------------------------------|
 | `ORG_NAME`            | The GitHub organization name                            | `nicholaswilde`                               |
@@ -16,6 +19,12 @@ Variables inside the script may be changed to customize the repo.
 | `GPG_LPASS_ATTACH_ID` | The attachment ID of the GPG `lastpass-cli` private key | `att-8017296795546256342-55097`               |
 | `SSH_LPASS_ID`        | The ID of the SSH `lastpass-cli` entry                  | `ssh`                                         |
 | `SSH_LPASS_ATTACH_ID` | The attachment ID of the SSH `lastpass-cli` private key | `att-4322045537695550419-20689`               |
+
+Variables may be changed during runtime by adding the variable values to the script run command.
+
+```shell
+/bin/bash -c "$(ORG_NAME=myorgname curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles2/main/scripts/init.sh)"
+```
 
 ## :card_file_box: Dotfiles
 

@@ -18,6 +18,9 @@ export KUBE_EDITOR=${EDITOR}
 # git
 export GITHUB_USER=nicholaswilde
 
+# LastPass
+export LPASS_DISABLE_PINENTRY=1
+
 # Tokens
 # shellcheck source=/dev/null
 test -f "${HOME}/.tokens" && source "${HOME}/.tokens"

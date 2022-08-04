@@ -78,17 +78,6 @@ function set_vars(){
   ! is_set "${GPG_LPASS_ATTACH_ID}" && GPG_LPASS_ATTACH_ID="$DEFAULT_GPG_LPASS_ATTACH_ID"
   ! is_set "${SSH_LPASS_ID}" && SSH_LPASS_ID="$DEFAULT_SSH_LPASS_ID"
   ! is_set "${SSH_LPASS_ATTACH_ID}" && SSH_LPASS_ATTACH_ID="$DEFAULT_SSH_LPASS_ATTACH_ID"
-  printf "ORG_NAME: %s\n" "${ORG_NAME}"
-  printf "GIT_DIR: %s\n" "${GIT_DIR}"
-  printf "EMAIL_ADDRESS: %s\n" "${EMAIL_ADDRESS}"
-  printf "REPO_NAME: %s\n" "${REPO_NAME}"
-  printf "REPO_URL: %s\n" "${REPO_URL}"
-  printf "REPO_DIR: %s\n" "${REPO_DIR}"
-  printf "GPG_LPASS_ID: %s\n" "${GPG_LPASS_ID}"
-  printf "GPG_LPASS_ATTACH_ID: %s\n" "${GPG_LPASS_ATTACH_ID}"
-  printf "SSH_LPASS_ID: %s\n" "${SSH_LPASS_ID}"
-  printf "SSH_LPASS_ATTACH_ID: %s\n" "${SSH_LPASS_ATTACH_ID}"
-  exit 0
 }
 
 function prevent_subshell(){

@@ -60,6 +60,10 @@ tasks:
     cmds:
       - mkdocs serve
     silent: true
+  shellcheck:
+    desc: Shellcheck the repo
+    cmds:
+      - ./scripts/shellcheck.sh
   default:
     cmds:
       - task -l

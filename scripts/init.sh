@@ -14,10 +14,6 @@
 set -e
 set -o pipefail
 
-SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-SCRIPT_NAME="$(basename "${0}")"
-SCRIPT_DESC="Initialize the dotfiles on a Ubuntu system"
-
 bold=$(tput bold)
 normal=$(tput sgr0)
 blue=$(tput setaf 4)
@@ -106,18 +102,19 @@ function clone_repo(){
 function install_brew(){
   print_text "Install brew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # shellcheck disable=SC2016
   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.profile"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   sudo apt-get update
   sudo apt-get install -y build-essential
-  # shellcheck source=${HOME}/.profile
+  # shellcheck source=/dev/null
   source "${HOME}/.profile"
 }
 
 function install_lastpass(){
   print_text "Install Lastpass"
   brew install lastpass-cli
-  # shellcheck source=${HOME}/.profile
+  # shellcheck source=/dev/null
   source "${HOME}/.profile"
   LPASS_DISABLE_PINENTRY=1 lpass login --trust "${EMAIL_ADDRESS}"
 }

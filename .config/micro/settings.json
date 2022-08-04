@@ -5,6 +5,9 @@
     "*lpass.*": {
         "filetype": "yaml"
     },
+    ".gitconfig": {
+        "tabstospaces": false
+    },
     "clipboard": "internal",
     "colorscheme": "twilight",
     "paste": true,

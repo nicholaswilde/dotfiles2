@@ -16,10 +16,33 @@ function count() { ## Count the number of things
   echo $(($(\find "${1}" -maxdepth 1 | wc -l)-1))
 }
 
-# Create a tar ball
 function targz() { ## Create a tarball
   check_args "targz <dir>" "${1}" || return 1
-  tar -zcvf $(echo "${1}" | sed 's/^\.//' | cut -f 1 -d '.').tar.gz "${1}"
+  	local tmpFile="${1%/}.tar"
+	tar -cvf "${tmpFile}" --exclude=".DS_Store" "${1}" || return 1
+
+	size=$(
+	  stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
+	  stat -c"%s" "${tmpFile}" 2> /dev/null # GNU `stat`
+	)
+
+	local cmd=""
+	if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
+		# the .tar file is smaller than 50 MB and Zopfli is available; use it
+		cmd="zopfli"
+	else
+		if hash pigz 2> /dev/null; then
+			cmd="pigz"
+		else
+			cmd="gzip"
+		fi
+	fi
+
+	echo "Compressing .tar using \`${cmd}\`…"
+	"${cmd}" -v "${tmpFile}" || return 1
+	[ -f "${tmpFile}" ] && rm "${tmpFile}"
+	unset cmd
+	echo "${tmpFile}.gz created successfully."
 }
 
 if command_exists lynx; then
@@ -274,3 +297,39 @@ function upgrate() { ## Upgrade everything
   command_exists pip3 && pip3 list --outdated --format=freeze | grep -v ^-e | cut -d = -f 1 | xargs -n1 pip3 install -U
   command_exists brew && brew upgrade
 }
+
+function fs() { ## Determine size of a file or total size of a directory
+	if \du -b /dev/null > /dev/null 2>&1; then
+		local arg=-sbh
+	else
+		local arg=-sh
+	fi
+	# shellcheck disable=SC2199
+	if [[ -n "$@" ]]; then
+		\du $arg -- "$@"
+	else
+		\du $arg -- *
+	fi
+}
+
+function escape() { ## UTF-8-encode a string of Unicode symbols
+  check_args "escape <string>" "${1}" || return 1
+	local args
+	mapfile -t args < <(printf "%s" "$*" | xxd -p -c1 -u)
+	printf "\\\\x%s" "${args[@]}"
+	# print a newline unless we’re piping the output to another program
+	if [ -t 1 ]; then
+		echo ""; # newline
+	fi
+}
+
+if command_exists perl; then
+  function codepoint() { ## Get a character’s Unicode code point
+    check_args "codepoint <string>" "${1}" || return 1
+  	perl -e "use utf8; print sprintf('U+%04X', ord(\"$*\"))"
+  	# print a newline unless we’re piping the output to another program
+  	if [ -t 1 ]; then
+  		echo ""; # newline
+  	fi
+  }
+fi

@@ -1,3 +1,4 @@
+#!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -69,11 +70,11 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-  PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-  ;;
-*)
-  ;;
+  xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+  *)
+    ;;
 esac
 
 # colored GCC warnings and errors
@@ -83,47 +84,36 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
-fi
-
-if [ -f ~/.bash_exports ]; then
-  . ~/.bash_exports
-fi
-
-if [ -f ~/.bash_functions ]; then
-  . ~/.bash_functions
-fi
-
-if [ -f ~/.bash_completions ]; then
-  . ~/.bash_completions
-fi
+# We do this before the following so that all the paths work.
+for file in ~/.bash_{aliases,functions,exports,completions}; do
+  if [[ -r "$file" ]] && [[ -f "$file" ]]; then
+    # shellcheck source=/dev/null
+    source "$file"
+  fi
+done
+unset file
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
+    # shellcheck source=/dev/null
     . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
+  elif [[ -f /etc/bash_completion ]]; then
+    # shellcheck source=/dev/null
     . /etc/bash_completion
   fi
 fi
 
 # Auto-screen invocation. see: http://taint.org/wk/RemoteLoginAutoScreen
 # if we're coming from a remote SSH connection, in an interactive session
-# then automatically put us into a screen(1) session.   Only try once
+# then automatically put us into a screen(1) session. Only try once
 # -- if $STARTED_SCREEN is set, don't try it again, to avoid looping
 # if screen fails for some reason.
-if [ "$PS1" != "" -a "${STARTED_SCREEN:-x}" = x -a "${SSH_TTY:-x}" != x ]
-then
+if [ "$PS1" != "" ] && [ "${STARTED_SCREEN:-x}" = x ] && [ "${SSH_TTY:-x}" != x ]; then
   STARTED_SCREEN=1 ; export STARTED_SCREEN
-  [ -d $HOME/.logs/screen-logs ] || mkdir -p $HOME/.logs/screen-logs
+  [ -d "${HOME}/.logs/screen-logs" ] || mkdir -p "${HOME}/.logs/screen-logs"
   sleep 1
   screen -RR && exit 0
   # normally, execution of this rc script ends here...

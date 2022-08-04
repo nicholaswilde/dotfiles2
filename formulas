@@ -1,6 +1,7 @@
 asciidoctor
 asciinema
 crf++
+direnv
 gh
 ghostscript
 glow

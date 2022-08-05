@@ -19,6 +19,8 @@ function file_exists(){
   [ -f "{1}" ]
 }
 
+alias relogin='exec $SHELL -l'
+
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
 

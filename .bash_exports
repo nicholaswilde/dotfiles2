@@ -10,6 +10,14 @@ if command_exists tput; then
   MAGENTA=$(tput setaf 5)
   CYAN=$(tput setaf 6)
   WHITE=$(tput setaf 7)
+  GRAY=$(tput setaf 8)
+  DARKRED=$(tput setaf 9)
+  DARKGREEN=$(tput setaf 10)
+  DARKYELLOW=$(tput setaf 11)
+  DARKBLUE=$(tput setaf 12)
+  DARKMAGENTA=$(tput setaf 13)
+  DARKCYAN=$(tput setaf 14)
+  DARKWHITE=$(tput setaf 15)
   BLINK=$(tput blink)
   NORMAL=$(tput sgr0)
   BOLD=$(tput bold)
@@ -21,7 +29,8 @@ if command_exists tput; then
   BGMAGENTA=$(tput setab 5)
   BGCYAN=$(tput setab 6)
   BGWHITE=$(tput setab 7)
-  export RED GREEN YELLOW BLUE MAGENTA CYAN WHITE BLINK NORMAL BOLD
+  export RED GREEN YELLOW BLUE MAGENTA CYAN WHITE GRAY BLINK NORMAL BOLD
+  export DARKRED DARKGREEN DARKYELLOW DARKBLUE DARKMAGENTA DARKCYAN DARKWHITE
   export BGRED BGGREEN BGYELLOW BGBLUE BGMAGENTA BGCYAN BGWHITE
 fi
 

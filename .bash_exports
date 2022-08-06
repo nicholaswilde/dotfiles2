@@ -1,8 +1,33 @@
 #!/bin/bash
 
+# Colors
+if command_exists tput; then
+  # foreground
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  MAGENTA=$(tput setaf 5)
+  CYAN=$(tput setaf 6)
+  WHITE=$(tput setaf 7)
+  BLINK=$(tput blink)
+  NORMAL=$(tput sgr0)
+  BOLD=$(tput bold)
+  # background
+  BGRED=$(tput setab 1)
+  BGGREEN=$(tput setab 2)
+  BGYELLOW=$(tput setab 3)
+  BGBLUE=$(tput setab 4)
+  BGMAGENTA=$(tput setab 5)
+  BGCYAN=$(tput setab 6)
+  BGWHITE=$(tput setab 7)
+  export RED GREEN YELLOW BLUE MAGENTA CYAN WHITE BLINK NORMAL BOLD
+  export BGRED BGGREEN BGYELLOW BGBLUE BGMAGENTA BGCYAN BGWHITE
+fi
+
 # History blue
-# shellcheck disable=SC2155,SC2046
-export HISTTIMEFORMAT=$(echo -e $(tput setaf 4)[%F %T] $(tput sgr0))
+HISTTIMEFORMAT=$(echo -e "${BLUE}"[%F %T] "${NORMAL}")
+export HISTTIMEFORMAT
 
 # go
 test -d "${HOME}/go" && export GOPATH="${HOME}/go"
@@ -60,27 +85,3 @@ test -d "${HOME}/bin/" && export PATH="${PATH}:${HOME}/bin/"
 test -d "${HOME}/.rbenv/bin" && export PATH="${PATH}:${HOME}/.rbenv/bin"
 test -d "/usr/local/texlive/2020/bin/x86_64-linux" && export PATH="${PATH}:/usr/local/texlive/2020/bin/x86_64-linux"
 
-# Colors
-if command_exists tput; then
-  # foreground
-  RED=$(tput setaf 1)
-  GREEN=$(tput setaf 2)
-  YELLOW=$(tput setaf 3)
-  BLUE=$(tput setaf 4)
-  MAGENTA=$(tput setaf 5)
-  CYAN=$(tput setaf 6)
-  WHITE=$(tput setaf 7)
-  BLINK=$(tput blink)
-  NORMAL=$(tput sgr0)
-  BOLD=$(tput bold)
-  # background
-  BGRED=$(tput setab 1)
-  BGGREEN=$(tput setab 2)
-  BGYELLOW=$(tput setab 3)
-  BGBLUE=$(tput setab 4)
-  BGMAGENTA=$(tput setab 5)
-  BGCYAN=$(tput setab 6)
-  BGWHITE=$(tput setab 7)
-  export RED GREEN YELLOW BLUE MAGENTA CYAN WHITE BLINK NORMAL BOLD
-  export BGRED BGGREEN BGYELLOW BGBLUE BGMAGENTA BGCYAN BGWHITE
-fi

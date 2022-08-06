@@ -19,3 +19,5 @@
 	prune = true
 [tag]
 	gpgsign = true
+[core]
+	editor = micro

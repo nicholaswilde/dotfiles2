@@ -265,9 +265,6 @@ fi
 # netstat
 command_exists netstat && alias port='netstat -tulanp'
 
-# lynx
-command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-address/ipv4/$(curl -s http://ipecho.net/plain; echo) | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'"
-
 # 32 or 64 bit
 # https://www.commandlinefu.com/commands/view/2940/32-bits-or-64-bits
 alias bit='getconf LONG_BIT'

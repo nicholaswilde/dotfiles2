@@ -21,7 +21,7 @@ for f in $(find "${DIR}/../" -type f -not -path '*.git*' -not -name "Taskfile.ya
 done
 
 if [ ${#ERRORS[@]} -eq 0 ]; then
-	echo "No errors, hooray"
+	echo "No errors, hooray!🎉"
 else
 	echo "These files failed shellcheck: ${ERRORS[*]}"
 	exit 1

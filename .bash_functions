@@ -231,7 +231,7 @@ function extract() { ## Extract a compressed file
           *.bz2)        bunzip2 ./"$n"       ;;
           *.cbr|*.rar)  unrar x -ad ./"$n"   ;;
           *.gz)         gunzip ./"$n"        ;;
-          *.cbz|*.epub|*.zip) unzip ./"$n"  ;;
+          *.cbz|*.epub|*.zip) unzip ./"$n"   ;;
           *.z)          uncompress ./"$n"    ;;
           *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
                         7z x ./"$n"          ;;
@@ -282,7 +282,7 @@ function fawk() { ## Return a column number. df -h | awk '{print $2}' => df -h |
 
 function an() { ## Add notes
   check_args "an <file>.md" "${1}" || return 1
-  "${EDITOR}" "${HOME}/git/nicholaswilde/notes/docs/$1.md"
+  "${EDITOR}" "${GIT_USER_PATH}/notes/docs/$1.md"
 }
 
 function lf() { ## List functions

@@ -333,3 +333,8 @@ if command_exists perl; then
   	fi
   }
 fi
+
+function mkig () { ## Make .gitignore file.
+  check_args "mkig <lang1,lang2>" "${1}" || return 1
+  curl -L -s "https://www.gitignore.io/api/$*"
+}

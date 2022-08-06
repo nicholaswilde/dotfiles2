@@ -155,6 +155,7 @@ alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"
 
 # Enable color support of ls and also add handy aliases
 if dir_exists /usr/bin/dircolors; then
+  # shellcheck disable=SC2015
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
   alias dir='dir --color=auto'
   alias vdir='vdir --color=auto'
@@ -197,6 +198,7 @@ command_exists pygmentize && alias catc='pygmentize -O style=friendly -g' # sudo
 
 # Get my public ip
 alias pubip='curl http://ipecho.net/plain; echo'
+# shellcheck disable=SC2142
 alias localip="hostname -I | awk '{print \$1}'"
 
 # Docker
@@ -226,7 +228,9 @@ if command_exists kubectl; then
   alias wka='watch kubectl get all -o wide'
   alias getkubeconfig='scp pirate@192.168.1.201:~/.kube/config ~/.kube/config-turing-pi'
   alias restartpod='kubectl rollout restart deployment'
+  # shellcheck disable=SC2142
   alias geting="kubectl get all -n kube-system | grep '^service/traefik ' | awk '{print \$4}'"
+  # shellcheck disable=SC2139
   alias klcm="kubectl logs -n cert-manager $(kubectl get pods -n cert-manager --selector=app.kubernetes.io/name=cert-manager -o jsonpath='{.items[*].metadata.name}')"
   alias kgef='kubectl get events -n flux-system'
 fi

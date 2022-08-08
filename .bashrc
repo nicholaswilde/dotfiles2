@@ -125,5 +125,3 @@ if [ "$PS1" != "" ] && [ "${STARTED_SCREEN:-x}" = x ] && [ "${SSH_TTY:-x}" != x 
   # normally, execution of this rc script ends here...
   echo "Screen failed! continuing with normal bash startup"
 fi
-
-complete -C /home/linuxbrew/.linuxbrew/Cellar/mc/RELEASE.2022-04-26T18-00-22Z_1/bin/mc mc

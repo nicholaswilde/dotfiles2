@@ -1,13 +1,4 @@
 #!/bin/bash
-# Check if command exists
-function command_exists(){
-  command -v "${1}" &> /dev/null
-}
-
-# Check if directory exists
-function dir_exists(){
-  [ -d "${1}" ]
-}
 
 # kubectl
 if command_exists kubectl; then
@@ -56,4 +47,9 @@ fi
 
 if command_exists brew; then
   v="$(brew --prefix)/bin/brew" && [[ -r "$v" ]] && eval "$($v shellenv)" 
+  unset v
+fi
+
+if command_exists mc; then
+  v="$(which mc)" && [[ -r "$v" ]] && complete -C "${v}" mc
 fi

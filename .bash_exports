@@ -44,7 +44,7 @@ if command_exists tput; then
 fi
 
 # History blue
-HISTTIMEFORMAT=$(echo -e "${BLUE}"[%F %T] "${NORMAL}")
+# HISTTIMEFORMAT=$(echo -e "${BLUE}"%F %T "${NORMAL}")
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -57,6 +57,9 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 export HISTTIMEFORMAT HISTSIZE HISTFILESIZE
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # go
 test -d "${HOME}/go" && export GOPATH="${HOME}/go"

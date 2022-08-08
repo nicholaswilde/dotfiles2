@@ -217,11 +217,11 @@ if command_exists kubectl; then
 fi
 
 # Edit files
-alias ea='${EDITOR} ~/.bash_aliases'
-alias ee='${EDITOR} ~/.bash_exports'
-alias ef='${EDITOR} ~/.bash_functions'
-alias ec='${EDITOR} ~/.bash_completions'
-alias el='${EDITOR} /usr/local/lib/bash/libbash'
+test -f "${ALIASES_PATH}" && alias ea='${EDITOR} ${ALIASES_PATH}'
+test -f "${COMPLETIONS_PATH}" && alias ec='${EDITOR} ${COMPLETIONS_PATH}'
+test -f "${EXPORTS_PATH}" && alias ee='${EDITOR} ${EXPORTS_PATH}'
+test -f "${FUNCTIONS_PATH}" && alias ef='${EDITOR} ${FUNCTIONS_PATH}'
+test -f "${BASHRC_PATH}" && alias erc='${EDITOR} ${BASHRC_PATH}'
 
 # Quickly load bashrc
 alias reload='brew leaves > ~/git/nicholaswilde/dotfiles2/formulas  && source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles2 add ~/git/nicholaswilde/dotfiles2/* && git -C ~/git/nicholaswilde/dotfiles2 commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles2 push origin main'

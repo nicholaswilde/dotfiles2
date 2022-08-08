@@ -2,6 +2,7 @@ asciidoctor
 asciinema
 crf++
 direnv
+fping
 gh
 ghostscript
 glow

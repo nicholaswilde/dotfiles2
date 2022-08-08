@@ -277,8 +277,10 @@ if command_exists flux; then
 fi
 
 # SOPS
-command_exists sops && alias se='sops --encrypt --in-place'
-command_exists sops && alias sd='sops --decrypt --in-place'
+if command_exists sops; then
+  alias se='sops --encrypt --in-place'
+  alias sd='sops --decrypt --in-place'
+fi
 
 alias pi-04='ssh pi@192.168.1.192'
 alias main='ssh pi@192.168.1.201'

@@ -45,7 +45,18 @@ fi
 
 # History blue
 HISTTIMEFORMAT=$(echo -e "${BLUE}"[%F %T] "${NORMAL}")
-export HISTTIMEFORMAT
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+export HISTTIMEFORMAT HISTSIZE HISTFILESIZE
 
 # go
 test -d "${HOME}/go" && export GOPATH="${HOME}/go"
@@ -102,4 +113,3 @@ test -d "${HOME}/.local/bin" && export PATH="${PATH}:${HOME}/.local/bin"
 test -d "${HOME}/bin/" && export PATH="${PATH}:${HOME}/bin/"
 test -d "${HOME}/.rbenv/bin" && export PATH="${PATH}:${HOME}/.rbenv/bin"
 test -d "/usr/local/texlive/2020/bin/x86_64-linux" && export PATH="${PATH}:/usr/local/texlive/2020/bin/x86_64-linux"
-

@@ -1,8 +1,5 @@
 #!/bin/bash
 # Check if command exists
-command_exists(){
-  command -v "${1}" &> /dev/null
-}
 
 check_args() {
   if [ -z "${2}" ]; then
@@ -337,4 +334,9 @@ fi
 function mkig () { ## Make .gitignore file.
   check_args "mkig <lang1,lang2>" "${1}" || return 1
   curl -L -s "https://www.gitignore.io/api/$*"
+}
+
+function separator() { ## Print a separator
+  # https://stackoverflow.com/a/42762743
+  printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' _
 }

@@ -1,23 +1,4 @@
 #!/bin/bash
-# Check if command exists
-function command_exists(){
-  command -v "${1}" &> /dev/null
-}
-
-# Check is variable is null
-function is_null {
-  [ -z "$1" ]
-}
-
-# Check if directory exists
-function dir_exists(){
-  [ -d "${1}" ]
-}
-
-# Check if file exists
-function file_exists(){
-  [ -f "{1}" ]
-}
 
 alias relogin='exec $SHELL -l'
 

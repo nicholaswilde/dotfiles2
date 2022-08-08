@@ -224,8 +224,8 @@ test -f "${FUNCTIONS_PATH}" && alias ef='${EDITOR} ${FUNCTIONS_PATH}'
 test -f "${BASHRC_PATH}" && alias erc='${EDITOR} ${BASHRC_PATH}'
 
 # Quickly load bashrc
-alias reload='brew leaves > ~/git/nicholaswilde/dotfiles2/formulas  && source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles2 add ~/git/nicholaswilde/dotfiles2/* && git -C ~/git/nicholaswilde/dotfiles2 commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles2 push origin main'
-alias gcn='git -C ~/git/nicholaswilde/notes add ~/git/nicholaswilde/notes/* &&  git -C ~/git/nicholaswilde/notes commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/notes push origin main'
+alias reload='brew leaves > ${GIT_USER_PATH}/dotfiles2/formulas  && source ~/.bashrc && git -C ${GIT_USER_PATH}/dotfiles2 add ${GIT_USER_PATH}/dotfiles2/* && git -C ${GIT_USER_PATH}/dotfiles2 commit --allow-empty-message -a -m ""; git -C ${GIT_USER_PATH}/dotfiles2 push origin main'
+alias gcn='git -C ${GIT_USER_PATH}/notes add ${GIT_USER_PATH}/notes/* &&  git -C ${GIT_USER_PATH}/notes commit --allow-empty-message -a -m ""; git -C ${GIT_USER_PATH}/notes push origin main'
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
@@ -244,7 +244,7 @@ command_exists tar && alias untar='tar xvf'
 if command_exists boilerplater; then
   alias boilerbash='boilerplater bash'
   alias boilerpy='boilerplater python'
-  alias boilermd='boilerplater ~/git/nicholaswilde/dotfiles/bin/boilerplate-md README.md'
+  alias boilermd='boilerplater ${GIT_USER_PATH}/dotfiles/bin/boilerplate-md README.md'
 fi
 
 # netstat

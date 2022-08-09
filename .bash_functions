@@ -340,3 +340,35 @@ function separator() { ## Print a separator
   # https://stackoverflow.com/a/42762743
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' _
 }
+
+function repeat() { ## Repeat a string
+  if is_null "${1}"; then
+    local s="-"
+  else
+    local s="${1}"
+  fi
+  if is_null "${2}"; then
+    local n=80
+  else
+    local n="${2}"
+  fi
+  for ((i=1; i <= n; i++)); do
+    echo -n "${s}"
+  done
+}
+
+function repeatln(){ ## Repeat a string and print a new line
+  repeat "${1}" "${2}"
+  printf "\n"
+}
+
+function replacetabs() { ## Replace tabs in a file with spaces
+  check_args "replacetabs <file> [n spaces]" "${1}" || return 1
+  if is_null "${2}"; then
+    local n=2
+  else
+    local n="${2}"
+  fi
+  s=$(repeat " " "${n}")
+  sed -i "s/\t/${s}/g" "${1}"
+}

@@ -72,7 +72,7 @@ if command_exists mc; then
   alias pipe='mc pipe'
   alias find='mc find'
   alias sl='mc ls'
-  alias mv='mc mv -r'
+  alias mv='mc mv'
   #alias rm='mc rm'
   alias watch='mc watch'
   alias head='mc head'

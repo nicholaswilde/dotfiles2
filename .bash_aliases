@@ -72,8 +72,8 @@ if command_exists mc; then
   alias pipe='mc pipe'
   alias find='mc find'
   alias sl='mc ls'
-  alias mv='mc mv'
-  #alias rm='mc rm'
+  # alias mv='mc mv'
+  # alias rm='mc rm'
   alias watch='mc watch'
   alias head='mc head'
   alias tree='mc tree'
@@ -128,6 +128,8 @@ if command_exists micro; then
   alias sm='sudo micro'
   alias m='micro'
 fi
+
+alias e='${EDITOR}'
 
 # List our functions
 # alias lf='cat ~/.bash_functions|grep -o -P "(?<=function ).*(?=\(\))" | sort'

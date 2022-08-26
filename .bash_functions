@@ -372,3 +372,11 @@ function replacetabs() { ## Replace tabs in a file with spaces
   s=$(repeat " " "${n}")
   sed -i "s/\t/${s}/g" "${1}"
 }
+
+function emojisc() { ## Lookup an emoji shortcode
+  check_args "emojisc <emoji>" "${1}" || return 1
+  # local type="github/\">Github</a>"
+  # local type="slack/\">Slack</a>"
+  local type="shortcodes/\">Emojipedia</a>"
+  curl -kLss "https://emojipedia.org/search/?q=${1}" | grep -B 1 "${type}" | grep -oP '^[^\:]*\:\K[^\:]+'
+}

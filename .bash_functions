@@ -387,5 +387,5 @@ function emojis() { ## Search Emojipedia for emoji
 }
 
 function cpdeg() { ## Copy degree symbol, °
-  copy °
+  printf "%s" "°"| copy
 }

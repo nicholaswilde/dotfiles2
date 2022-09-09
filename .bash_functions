@@ -385,3 +385,7 @@ function emojis() { ## Search Emojipedia for emoji
   check_args "emojis <word>" "${1}" || return 1
   curl -kLss "https://emojipedia.org/search/?q=${1}" | grep "<span class=\"emoji\">" | grep h2 | awk -F"<span class=\"emoji\">|</a>" '{for(i=2;i<=NF;i+=2){print $i}}' RS="" | sed "s/<\/span>//g"
 }
+
+function cpdeg() { ## Copy degree symbol, °
+  copy °
+}

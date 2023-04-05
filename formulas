@@ -1,7 +1,9 @@
+act
 agg
 asciidoctor
 asciinema
 cmake
+cmocka
 crf++
 direnv
 flex

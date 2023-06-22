@@ -5,6 +5,7 @@ asciinema
 cmake
 cmocka
 crf++
+direnv
 flex
 fping
 gh

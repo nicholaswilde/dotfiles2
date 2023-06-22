@@ -53,3 +53,7 @@ fi
 if command_exists mc; then
   v="$(which mc)" && [[ -r "$v" ]] && complete -C "${v}" mc
 fi
+
+if command_exists direnv; then
+  eval "$(direnv hook bash)"
+fi

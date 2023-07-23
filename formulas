@@ -26,6 +26,7 @@ micro
 minio/stable/mc
 nicholaswilde/tap/cook-docs
 ninja
+nvm
 pandoc
 parallel
 pass

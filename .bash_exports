@@ -124,3 +124,7 @@ test -f "${HOME}/.bash_aliases" && export ALIASES_PATH="${HOME}/.bash_aliases"
 test -f "${HOME}/.bash_completions" && export COMPLETIONS_PATH="${HOME}/.bash_completions" 
 test -f "${HOME}/.bash_exports" && export EXPORTS_PATH="${HOME}/.bash_exports" 
 test -f "${HOME}/.bash_functions" && export FUNCTIONS_PATH="${HOME}/.bash_functions" 
+
+test -d "${HOME}/.nvm" && export NVM_DIR="$HOME/.nvm"
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion

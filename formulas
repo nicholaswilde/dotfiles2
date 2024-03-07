@@ -2,6 +2,8 @@ act
 agg
 asciidoctor
 asciinema
+berkeley-db
+bitwarden-cli
 cmake
 cmocka
 crf++
@@ -34,6 +36,9 @@ pdfgrep
 perl
 poetry
 pre-commit
+python-build
+python-click
+pyyaml
 s-lang
 scons
 shellcheck
@@ -42,6 +47,7 @@ swift
 swig
 vulkan-headers
 whois
+xmlto
 yamllint
 ykman
 yq

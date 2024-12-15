@@ -64,22 +64,22 @@ alias search='sudo find / -name'
 alias fhere='find . -name'
 
 # Navigation
-if command_exists mc; then
-  alias ls='mc ls'
-  alias cp='mc cp'
-  alias cat='mc cat'
-  alias mkdir='mc mb'
-  alias pipe='mc pipe'
-  alias find='mc find'
-  alias sl='mc ls'
-  # alias mv='mc mv'
-  # alias rm='mc rm'
-  alias watch='mc watch'
-  alias head='mc head'
-  alias tree='mc tree'
-  alias diff='mc diff'
-  alias du='mc du'
-else
+# if command_exists mc; then
+#   alias ls='mc ls'
+#   alias cp='mc cp'
+#   alias cat='mc cat'
+#   alias mkdir='mc mb'
+#   alias pipe='mc pipe'
+#   alias find='mc find'
+#   alias sl='mc ls'
+#   # alias mv='mc mv'
+#   # alias rm='mc rm'
+#   alias watch='mc watch'
+#   alias head='mc head'
+#   alias tree='mc tree'
+#   alias diff='mc diff'
+#   alias du='mc du'
+# else
   alias ls='ls --sort=extension --color=auto'
   alias sl='ls --sort=extension --color=auto' # Typo
   alias lsl='ls -lhFA | less' # Long format
@@ -92,7 +92,7 @@ else
   alias cp='cp -r'
   alias mv='mv -i'
   alias mkdir='mkdir -pv' # Parent directories  
-fi
+# fi
 
 alias rm='rm -rf'
 

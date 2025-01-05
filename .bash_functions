@@ -389,3 +389,7 @@ function emojis() { ## Search Emojipedia for emoji
 function cpdeg() { ## Copy degree symbol, °
   printf "%s" "°"| copy
 }
+
+function bwfind() {
+  bw list items --search $1 | jq '.[] | .name,.login'
+}

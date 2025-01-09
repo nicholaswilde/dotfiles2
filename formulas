@@ -1,11 +1,1 @@
-bitwarden-cli
-brew-cask-completion
-gcc
-gh
-go-task/tap/go-task
-jmespath/jmespath/jp
-jq
-lastpass-cli
-micro
-pipx
-sops
+go-task

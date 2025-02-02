@@ -10,6 +10,7 @@
     },
     "clipboard": "internal",
     "colorscheme": "twilight",
+    "mkparents": true,
     "paste": true,
     "tabsize": 2,
     "tabstospaces": true

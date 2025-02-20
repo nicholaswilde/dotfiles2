@@ -110,13 +110,18 @@ fi
 # then automatically put us into a screen(1) session. Only try once
 # -- if $STARTED_SCREEN is set, don't try it again, to avoid looping
 # if screen fails for some reason.
-if [ "$PS1" != "" ] && [ "${STARTED_SCREEN:-x}" = x ] && [ "${SSH_TTY:-x}" != x ]; then
-  STARTED_SCREEN=1 ; export STARTED_SCREEN
-  [ -d "${HOME}/.logs/screen-logs" ] || mkdir -p "${HOME}/.logs/screen-logs"
-  sleep 1
-  screen -RR && exit 0
-  # normally, execution of this rc script ends here...
-  echo "Screen failed! continuing with normal bash startup"
+# if [ "$PS1" != "" ] && [ "${STARTED_SCREEN:-x}" = x ] && [ "${SSH_TTY:-x}" != x ]; then
+#   STARTED_SCREEN=1 ; export STARTED_SCREEN
+#   [ -d "${HOME}/.logs/screen-logs" ] || mkdir -p "${HOME}/.logs/screen-logs"
+#   sleep 1
+#   screen -RR && exit 0
+#   # normally, execution of this rc script ends here...
+#   echo "Screen failed! continuing with normal bash startup"
+# fi
+
+# https://stackoverflow.com/a/40192494
+if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
+  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
 fi
 
 # pnpm

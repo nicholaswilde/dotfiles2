@@ -9,7 +9,7 @@
         "tabstospaces": false
     },
     "clipboard": "internal",
-    "colorscheme": "twilight",
+    "colorscheme": "catppuccin-mocha",
     "mkparents": true,
     "paste": true,
     "tabsize": 2,

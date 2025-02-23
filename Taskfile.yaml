@@ -32,6 +32,12 @@ tasks:
         ln -snf "$(pwd)/.config/micro/settings.json" "${HOME}/.config/micro/settings.json";
         ln -snf "$(pwd)/.config/micro/bindings.json" "${HOME}/.config/micro/bindings.json";
         ln -snf "$(pwd)/.config/micro/syntax/sh.yaml" "${HOME}/.config/micro/syntax/sh.yaml";
+        git clone "https://github.com/tmux-plugins/tpm" "${HOME}/.tmux/plugins/tpm"
+        mkdir -p "${HOME}.config/tmux"
+        [ -d "${HOME}/.config/tmux/plugins/catppuccin" ] || mkdir -p "${HOME}/.config/tmux/plugins/catppuccin"
+        git clone "https://github.com/catppuccin/tmux.git" "${HOME}/.config/tmux/plugins/catppuccin/tmux"
+        ln -snf "$(pwd)/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf";
+        "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
         source ~/.bashrc
     silent: true
   import:

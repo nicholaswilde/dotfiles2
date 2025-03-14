@@ -131,3 +131,4 @@ test -d "${HOME}/.nvm" && export NVM_DIR="$HOME/.nvm"
 
 # suppress punycode deprecation warning
 export NODE_OPTIONS="--no-deprecation"
+export MICRO_TRUECOLOR=1

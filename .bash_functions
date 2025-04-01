@@ -156,11 +156,6 @@ function tmpd() { ## Make a temporary directory and enter it
   pushd "$dir" || return
 }
 
-function cheat() { ## Lookup a command at cheat.sh
-  check_args "cheat <url>" "${1}"
-  curl "cheat.sh/${1}"
-}
-
 function mwiki() { ## Lookup something on Wikipedia
   dig +short txt "$*".wp.dg.cx;
 }

@@ -290,3 +290,7 @@ fi
 
 alias pi-04='ssh pi@192.168.1.192'
 alias main='ssh pi@192.168.1.201'
+
+if command_exists terraform; then
+  alias tf='terraform'
+fi

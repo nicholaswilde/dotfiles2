@@ -42,6 +42,8 @@ tasks:
         git clone "https://github.com/catppuccin/micro.git" "${TEMP}"
         mkdir -p "${HOME}/.config/micro/colorschemes"
         cp "${TEMP}/src/*" "${HOME}/.config/micro/colorschemes"
+        mkdir -p "${HOME}/.config/cheat";
+        ln -snf "$(pwd)/.config/cheat/conf.yml" "${HOME}/.config/cheat/conf.yml";
         source ~/.bashrc
     silent: true
   import:

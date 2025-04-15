@@ -298,3 +298,7 @@ fi
 if command_exists terragrunt; then
   alias tg='terragrunt'
 fi
+
+if command_exists ansible-vault; then
+  alias av='ansible-vault'
+fi

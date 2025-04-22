@@ -112,8 +112,12 @@ function install_brew(){
 }
 
 function install_lastpass(){
+  if command_exists lpass; then
+    echo "lpass is already installed"
+    return 0
+  fi
   print_text "Install Lastpass"
-  brew install lastpass-cli
+  sudo apt install -y lastpass-cli
   # shellcheck source=/dev/null
   source "${HOME}/.profile"
   LPASS_DISABLE_PINENTRY=1 lpass login --trust "${EMAIL_ADDRESS}"

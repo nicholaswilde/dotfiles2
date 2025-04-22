@@ -17,34 +17,34 @@ tasks:
         printf "\ninstalling dotfiles ...\n\n"
         for file in $(find $(pwd)/ -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name "test.sh" -not -name ".bashrc.*" -not -name ".yamllint" -not -name ".pre-commit-config*"); do
             f=$(basename $file);
-            echo "$f"
+            echo "$f";
             ln -sfn $file "${HOME}/$f";
         done;
         gpg --list-keys || true;
-        mkdir -p "${HOME}/.gnupg";
+        # [ -d "${HOME}/.gnupg" ] || mkdir "${HOME}/.gnupg";
         for file in $(find $(pwd)/.gnupg); do
             f=$(basename $file);
             ln -sfn $file "${HOME}/.gnupg/$f";
         done;
-        mkdir -p "${HOME}/.config/gh";
+        # [ -d "${HOME}/.config/gh" ] || mkdir -p "${HOME}/.config/gh";
         ln -snf "$(pwd)/.config/gh/config.yml" "${HOME}/.config/gh/config.yml";
-        mkdir -p "${HOME}/.config/micro/syntax/";
+        # [[ -d "${HOME}/.config/micro/syntax/"]] || mkdir -p "${HOME}/.config/micro/syntax/";
         ln -snf "$(pwd)/.config/micro/settings.json" "${HOME}/.config/micro/settings.json";
         ln -snf "$(pwd)/.config/micro/bindings.json" "${HOME}/.config/micro/bindings.json";
         ln -snf "$(pwd)/.config/micro/syntax/sh.yaml" "${HOME}/.config/micro/syntax/sh.yaml";
-        git clone "https://github.com/tmux-plugins/tpm" "${HOME}/.tmux/plugins/tpm"
-        mkdir -p "${HOME}.config/tmux"
-        [ -d "${HOME}/.config/tmux/plugins/catppuccin" ] || mkdir -p "${HOME}/.config/tmux/plugins/catppuccin"
-        git clone "https://github.com/catppuccin/tmux.git" "${HOME}/.config/tmux/plugins/catppuccin/tmux"
+        # git clone "https://github.com/tmux-plugins/tpm" "${HOME}/.tmux/plugins/tpm";
+        # [[ -d "${HOME}.config/tmux" ] || mkdir -p "${HOME}.config/tmux";
+        # [[ -d "${HOME}/.config/tmux/plugins/catppuccin" ]] || mkdir -p "${HOME}/.config/tmux/plugins/catppuccin";
+        # git clone "https://github.com/catppuccin/tmux.git" "${HOME}/.config/tmux/plugins/catppuccin/tmux";
         ln -snf "$(pwd)/.config/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf";
-        "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
-        TEMP=$(mktemp -d)
-        git clone "https://github.com/catppuccin/micro.git" "${TEMP}"
-        mkdir -p "${HOME}/.config/micro/colorschemes"
-        cp "${TEMP}/src/*" "${HOME}/.config/micro/colorschemes"
-        mkdir -p "${HOME}/.config/cheat";
+        "${HOME}/.tmux/plugins/tpm/bin/install_plugins";
+        TEMP=$(mktemp -d);
+        git clone "https://github.com/catppuccin/micro.git" "${TEMP}";
+        # [[ -d "${HOME}/.config/micro/colorschemes" ]] || mkdir -p "${HOME}/.config/micro/colorschemes";
+        cp "${TEMP}/src/*" "${HOME}/.config/micro/colorschemes";
+        # [[ -d "${HOME}/.config/cheat" ]] || mkdir -p "${HOME}/.config/cheat";
         ln -snf "$(pwd)/.config/cheat/conf.yml" "${HOME}/.config/cheat/conf.yml";
-        source ~/.bashrc
+        source ~/.bashrc;
     silent: true
   import:
     desc: Import brew formulas

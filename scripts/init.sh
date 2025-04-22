@@ -148,7 +148,7 @@ function install_task(){
     echo "task is already installed"
     return 0
   fi
-  brew install go-task/tap/go-task 
+  brew install go-task 
 }
 
 function end_script(){

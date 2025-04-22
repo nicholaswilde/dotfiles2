@@ -6,7 +6,7 @@
 # Initialize the dotfiles on a Ubuntu system
 #
 # @author Nicholas Wilde, 0xb299a622
-# @date 23 Jul 2022
+# @date 22 Apr 2025
 # @version 0.1.1
 #
 ################################################################################

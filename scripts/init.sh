@@ -127,10 +127,10 @@ function setup_ssh(){
   if ! dir_exists ~/.ssh; then
     mkdir ~/.ssh
   fi
-  curl "https://github.com/${ORG_NAME}.keys" -o ~/.ssh/id_rsa.pub
-  chmod 644 ~/.ssh/id_rsa.pub
-  lpass show "${SSH_LPASS_ID}" --attach="${SSH_LPASS_ATTACH_ID}" -q > ~/.ssh/id_rsa
-  chmod 600 ~/.ssh/id_rsa
+  curl "https://github.com/${ORG_NAME}.keys" -o ~/.ssh/id_ed25519.pub
+  chmod 644 ~/.ssh/id_ed25519.pub
+  lpass show "${SSH_LPASS_ID}" --attach="${SSH_LPASS_ATTACH_ID}" -q > ~/.ssh/id_ed25519
+  chmod 600 ~/.ssh/id_ed25519
   cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
   chmod 0700 ~/.ssh
   ssh-import-id-gh "${ORG_NAME}"

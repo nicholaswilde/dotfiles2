@@ -95,7 +95,7 @@ function setup_micro(){
   print_text "Temp: ${TEMP}"
   [[ -d "${HOME}/.config/micro/colorschemes" ]] || mkdir -p "${HOME}/.config/micro/colorschemes"
   git clone "https://github.com/catppuccin/micro.git" "${TEMP}"
-  DOWNLOAD_URL="https://github.com/catppuccin/micro/archive/${BRANCH_OR_TAG}.tar.gz"
+  DOWNLOAD_URL="https://github.com/catppuccin/micro/releases/latest/download/package.tar.gz"
   if [ $? -eq 0 ]; then
     cp "${TEMP}/src/*" "${HOME}/.config/micro/colorschemes"
   fi

@@ -86,18 +86,27 @@ function setup_gh(){
 function setup_micro(){
   print_text "Setting up micro"
   [[ -d "${HOME}/.config/micro/syntax/" ]] || mkdir -p "${HOME}/.config/micro/syntax/"
-  ln -snf "$(pwd)/.config/micro/settings.json" "${HOME}/.config/micro/settings.json"
-  ln -snf "$(pwd)/.config/micro/bindings.json" "${HOME}/.config/micro/bindings.json"
-  ln -snf "$(pwd)/.config/micro/syntax/sh.yaml" "${HOME}/.config/micro/syntax/sh.yaml"
+  ln -snf "${DIR}/.config/micro/settings.json" "${HOME}/.config/micro/settings.json"
+  ln -snf "${DIR}/.config/micro/bindings.json" "${HOME}/.config/micro/bindings.json"
+  ln -snf "${DIR}/.config/micro/syntax/sh.yaml" "${HOME}/.config/micro/syntax/sh.yaml"
 
   print_text "Setting up catppuccin for micro"
   TEMP=$(mktemp -d)
+  cd "${TEMP}"
   print_text "Temp: ${TEMP}"
   [[ -d "${HOME}/.config/micro/colorschemes" ]] || mkdir -p "${HOME}/.config/micro/colorschemes"
-  git clone "https://github.com/catppuccin/micro.git" "${TEMP}"
+  # git clone "https://github.com/catppuccin/micro.git" "${TEMP}"
   DOWNLOAD_URL="https://github.com/catppuccin/micro/archive/main.tar.gz"
-  if [ $? -eq 0 ]; then
-    cp "${TEMP}/src/*" "${HOME}/.config/micro/colorschemes"
+  wget "${DOWNLOAD_URL}" -O "${TEMP}/main.tar.gz"
+  if [[ -f "${TEMP}/main.tar.gz" ]]; then
+  	tar -xvf "${TEMP}/main.tar.gz" --strip-components=1 -C "${TEMP}"
+  	if [[ -d "${TEMP}/src" ]]; then
+      cp "${TEMP}/src/*" "${HOME}/.config/micro/colorschemes"
+    else
+      show_warning "Couldn't find src dir ${TEMP}/src"
+    fi
+  else
+  	show_warning "Couldn't find the downloaded tar file"
   fi
 }
 
